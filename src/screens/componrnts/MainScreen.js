@@ -75,8 +75,8 @@ const MainScreen = ({navigation}) => {
 
     {
       name: 'Annual Ring 2023',
-      imageSource: require('../assets/images/2023.png'),
-      imageSource2: require('../assets/images/2023.png'),
+      imageSource: require('../assets/images/AnnualRing 2023.png'),
+      imageSource2: require('../assets/images/AnnualRing 2023.png'),
     },
   ];
 
