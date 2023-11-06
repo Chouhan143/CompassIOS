@@ -122,7 +122,7 @@ const CustomSideMenu = () => {
           Authorization: `Bearer ${token}`,
         };
         const res = await axios.get(
-          'https://app.srninfotech.com/compass/api/user-transactions',
+          'https://smartluopan.com/api/user-transactions',
           {headers},
         );
         const dataSun = res.data.transactions[0];

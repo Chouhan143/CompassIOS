@@ -29,7 +29,7 @@ function CheckoutPage() {
       };
 
       const response = await axios.post(
-        'https://app.srninfotech.com/compass/api/check-out',
+        'https://smartluopan.com/api/check-out',
         payload,
         {headers},
       );

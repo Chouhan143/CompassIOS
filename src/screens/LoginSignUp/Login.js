@@ -32,7 +32,7 @@ const Login = () => {
   const LoginApi = async () => {
     setLoading(true);
     try {
-      const Url = 'https://app.srninfotech.com/compass/api/login';
+      const Url = 'https://smartluopan.com//api/login';
       const Payload = {
         email: email,
         password: password,

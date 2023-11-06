@@ -58,7 +58,7 @@ const ModalComponent = () => {
       };
 
       const intentResponse = await axios.post(
-        'https://app.srninfotech.com/compass/api/check-out',
+        'https://smartluopan.com/api/check-out',
         payload,
         {headers},
       );
@@ -147,7 +147,7 @@ const ModalComponent = () => {
   //       Authorization: `Bearer ${token}`,
   //     };
   //     const response = await fetch(
-  //       'https://app.srninfotech.com/compass/api/check-out',
+  //       'https://smartluopan.com/api/check-out',
   //       {
   //         method: 'POST',
   //         payload,

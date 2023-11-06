@@ -29,7 +29,7 @@ const SignUp = () => {
   const SignUpApi = async () => {
     setLoading(true);
     try {
-      const Url = 'https://app.srninfotech.com/compass/api/register';
+      const Url = 'https://smartluopan.com/api/register';
       const Payload = {
         name: name,
         email: email,

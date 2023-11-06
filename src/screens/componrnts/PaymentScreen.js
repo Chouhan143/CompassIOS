@@ -94,7 +94,7 @@ const PaymentScreen = () => {
         };
 
         const transactionStore = await axios.post(
-          'https://app.srninfotech.com/compass/api/transaction-store',
+          'https://smartluopan.com/api/transaction-store',
           payload,
           {headers},
         );
