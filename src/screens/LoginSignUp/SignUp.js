@@ -92,7 +92,7 @@ const SignUp = () => {
           position: 'absolute',
         }}>
         <Image
-          source={require('../assets/images/Logo.jpeg')}
+          source={require('../assets/images/LeoPanWhiteLogo.png')}
           style={{
             width: responsiveWidth(20),
             height: responsiveWidth(20),

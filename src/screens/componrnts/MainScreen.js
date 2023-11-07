@@ -18,6 +18,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import Font5 from 'react-native-vector-icons/FontAwesome5';
 import Icon4 from 'react-native-vector-icons/MaterialIcons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import SubscriptionModal from './SubscriptionModal';
 import CustomSideMenu from './CustomSideMenu';
@@ -75,8 +76,8 @@ const MainScreen = ({navigation}) => {
 
     {
       name: 'Annual Ring 2023',
-      imageSource: require('../assets/images/AnnualRing 2023.png'),
-      imageSource2: require('../assets/images/AnnualRing 2023.png'),
+      imageSource: require('../assets/images/AnnualRing2023.png'),
+      imageSource2: require('../assets/images/AnnualRing2023.png'),
     },
   ];
 
@@ -160,6 +161,11 @@ const MainScreen = ({navigation}) => {
           </View>
         </View>
         <View style={styles.name_sec_icon}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Ebook')}
+            style={{paddingRight: responsiveWidth(3)}}>
+            <SimpleLineIcons name="notebook" size={20} color="#fff" />
+          </TouchableOpacity>
           <TouchableOpacity onPress={handleLogout}>
             <Icon4 name="logout" size={25} color="#fff" />
           </TouchableOpacity>
@@ -507,8 +513,8 @@ const MainScreen = ({navigation}) => {
                   source={options[5].imageSource}
                   style={{
                     flex: 1,
-                    width: responsiveWidth(30),
-                    height: responsiveWidth(30),
+                    width: responsiveWidth(45),
+                    height: responsiveWidth(45),
                     resizeMode: 'contain',
                   }}
                 />
@@ -570,8 +576,10 @@ const styles = StyleSheet.create({
     marginHorizontal: responsiveWidth(1),
   },
   name_sec_icon: {
-    flex: 0.8,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
+    paddingRight: responsiveWidth(2),
   },
 });

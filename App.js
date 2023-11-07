@@ -9,6 +9,7 @@ import {PaperProvider} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
 import HomeScreen from './src/screens/componrnts/HomeScreen';
 import CheckoutPage from './src/screens/componrnts/CheckoutPage';
+import Ebook from './src/screens/componrnts/Ebook';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -174,6 +175,7 @@ function App() {
               },
             }}
           />
+
           <Stack.Screen
             name="PaymentScreen"
             component={PaymentScreen}
@@ -189,6 +191,18 @@ function App() {
             //   headerTitleStyle: {alignSelf: 'center'},
             //   headerTintColor: 'white',
             // }}
+            options={{
+              headerTitleStyle: {alignSelf: 'center'},
+              headerBackgroundColor: 'red',
+              headerTintColor: '#fff',
+              headerStyle: {
+                backgroundColor: '#0a2240', // Set the background color to blue
+              },
+            }}
+          />
+          <Stack.Screen
+            name="Ebook"
+            component={Ebook}
             options={{
               headerTitleStyle: {alignSelf: 'center'},
               headerBackgroundColor: 'red',

@@ -32,7 +32,7 @@ const Login = () => {
   const LoginApi = async () => {
     setLoading(true);
     try {
-      const Url = 'https://smartluopan.com//api/login';
+      const Url = 'https://smartluopan.com/api/login';
       const Payload = {
         email: email,
         password: password,
@@ -106,7 +106,7 @@ const Login = () => {
           position: 'absolute',
         }}>
         <Image
-          source={require('../assets/images/Logo.jpeg')}
+          source={require('../assets/images/LeoPanWhiteLogo.png')}
           style={{
             width: responsiveWidth(20),
             height: responsiveWidth(20),
