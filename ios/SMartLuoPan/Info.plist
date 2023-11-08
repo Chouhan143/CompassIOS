@@ -38,7 +38,10 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>location permision always</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+<string>We need access to your location for providing location-based services in our app.</string>
+<key>NSCameraUsageDescription</key>
+<string>We need access to your camera for capturing photos in our app.</string>
+
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -67,6 +70,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarStyle</key>
+	<string></string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

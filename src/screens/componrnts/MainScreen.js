@@ -58,20 +58,20 @@ const MainScreen = ({navigation}) => {
     },
     {
       name: 'Period 8 & Period 9 Flying Star LuoPan',
-      imageSource: require('../assets/images/amit2.png'),
-      imageSource2: require('../assets/images/amit2.png'),
+      imageSource: require('../assets/images/FlyingStarPeriod8&9.png'),
+      imageSource2: require('../assets/images/FlyingStarPeriod8&9.png'),
     },
     {
-      compasId2: 3,
       name: 'Xuan Kong Da Gua Rings ',
-      imageSource: require('../assets/images/KongDaB.png'),
-      imageSource2: require('../assets/images/KongDaB.png'),
+      imageSource: require('../assets/images/XKDG.png'),
+      imageSource2: require('../assets/images/XKDG.png'),
     },
 
     {
-      name: 'Transparent version',
-      imageSource: require('../assets/images/kigi.png'),
-      imageSource2: require('../assets/images/kigi.png'),
+      compasId2: 3,
+      name: 'Transparent vector LuoPAn',
+      imageSource: require('../assets/images/TransparentVectoLuoPAn.png'),
+      imageSource2: require('../assets/images/TransparentVectoLuoPAn.png'),
     },
 
     {
@@ -185,119 +185,96 @@ const MainScreen = ({navigation}) => {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
+            marginHorizontal: responsiveWidth(4),
           }}>
           <View
             style={{
               flexDirection: 'row',
               gap: 10,
             }}>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('CompassOverlay', {option: options[0]})
-              }>
-              <LinearGradient
-                start={{x: 0, y: 1}}
-                end={{x: 1, y: 0}}
-                colors={['#eaf4fc', '#eaf4fc', '#eaf4fc']}
-                style={{
-                  width: responsiveWidth(45),
-                  height: responsiveHeight(25),
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: responsiveWidth(3),
-                  shadowColor: responsiveHeight(5),
-                  elevation: 5,
-                }}>
+            <View
+              style={{
+                flex: 1,
+                width: responsiveWidth(35),
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: responsiveWidth(3),
+                shadowColor: responsiveHeight(5),
+                elevation: 5,
+                paddingTop: responsiveHeight(2),
+                backgroundColor: '#eaf4fc',
+              }}>
+              <TouchableOpacity
+                style={{flex: 0.7}}
+                onPress={() =>
+                  navigation.navigate('CompassOverlay', {option: options[0]})
+                }>
                 <Image
                   source={options[0].imageSource2}
                   style={{
                     flex: 1,
-                    width: responsiveWidth(100),
-                    height: responsiveWidth(100),
+                    width: responsiveWidth(45),
+                    height: responsiveWidth(45),
                     resizeMode: 'contain',
                   }}
                 />
-
-                <View style={{flex: 0.5}}>
-                  <Text
-                    style={{
-                      fontSize: responsiveFontSize(1.7),
-                      fontWeight: '600',
-                      color: '#000',
-                      marginTop: responsiveHeight(1.5),
-                      paddingHorizontal: responsiveWidth(2),
-                    }}
-                    numberOfLines={2}>
-                    {options[0].name}
-                  </Text>
-                  {/* <Text
+              </TouchableOpacity>
+              <View style={{flex: 0.3}}>
+                <Text
                   style={{
-                    fontSize: responsiveFontSize(1.5),
-                    fontWeight: '400',
+                    fontSize: responsiveFontSize(1.7),
+                    fontWeight: '600',
                     color: '#000',
-                    marginTop: responsiveHeight(1),
+                    marginTop: responsiveHeight(1.5),
                     paddingHorizontal: responsiveWidth(2),
                   }}
-                  numberOfLines={3}>
-                  {options[0].description}
-                </Text> */}
-                </View>
-              </LinearGradient>
-            </TouchableOpacity>
+                  numberOfLines={2}>
+                  {options[0].name}
+                </Text>
+              </View>
+            </View>
 
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('CompassOverlay', {option: options[1]})
-              }>
-              <LinearGradient
-                start={{x: 0, y: 1}}
-                end={{x: 1, y: 0}}
-                colors={['#eaf4fc', '#eaf4fc', '#eaf4fc']}
-                style={{
-                  width: responsiveWidth(45),
-                  height: responsiveHeight(25),
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: responsiveWidth(3),
-                  shadowColor: responsiveHeight(5),
-                  elevation: 5,
-                }}>
+            <View
+              style={{
+                flex: 1,
+                width: responsiveWidth(35),
+                height: responsiveHeight(25),
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: responsiveWidth(3),
+                shadowColor: responsiveHeight(5),
+                elevation: 5,
+                backgroundColor: '#eaf4fc',
+              }}>
+              <TouchableOpacity
+                style={{flex: 0.7}}
+                onPress={() =>
+                  navigation.navigate('CompassOverlay', {option: options[1]})
+                }>
                 <Image
                   source={options[1].imageSource}
                   style={{
-                    width: responsiveWidth(100),
-                    height: responsiveWidth(100),
+                    width: responsiveWidth(45),
+                    height: responsiveWidth(45),
                     resizeMode: 'contain',
                     flex: 1,
                   }}
                 />
-
-                <View style={{flex: 0.5}}>
-                  <Text
-                    style={{
-                      fontSize: responsiveFontSize(1.7),
-                      fontWeight: '600',
-                      color: '#000',
-                      marginTop: responsiveHeight(1.5),
-                      paddingHorizontal: responsiveWidth(2),
-                    }}
-                    numberOfLines={2}>
-                    {options[1].name}
-                  </Text>
-                  {/* <Text
+              </TouchableOpacity>
+              <View style={{flex: 0.3}}>
+                <Text
                   style={{
-                    fontSize: responsiveFontSize(1.5),
-                    fontWeight: '400',
+                    fontSize: responsiveFontSize(1.7),
+                    fontWeight: '600',
                     color: '#000',
-                    marginTop: responsiveHeight(1),
+                    marginTop: responsiveHeight(1.5),
                     paddingHorizontal: responsiveWidth(2),
                   }}
-                  numberOfLines={3}>
-                  {options[1].description}
-                </Text> */}
-                </View>
-              </LinearGradient>
-            </TouchableOpacity>
+                  numberOfLines={2}>
+                  {options[1].name}
+                </Text>
+              </View>
+            </View>
           </View>
         </View>
         {/* frist Ui View  */}
@@ -305,32 +282,32 @@ const MainScreen = ({navigation}) => {
         <View
           style={{
             flex: 1,
-
             justifyContent: 'center',
             alignItems: 'center',
+            marginHorizontal: responsiveWidth(4),
           }}>
           <View
             style={{
               flexDirection: 'row',
               gap: 10,
             }}>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('CompassOverlay', {option: options[2]})
-              }>
-              <LinearGradient
-                start={{x: 0, y: 1}}
-                end={{x: 1, y: 0}}
-                colors={['#eaf4fc', '#eaf4fc', '#eaf4fc']}
-                style={{
-                  width: responsiveWidth(45),
-                  height: responsiveHeight(25),
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: responsiveWidth(3),
-                  shadowColor: responsiveHeight(5),
-                  elevation: 5,
-                }}>
+            <View
+              style={{
+                flex: 1,
+                width: responsiveWidth(35),
+                height: responsiveHeight(25),
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: responsiveWidth(3),
+                shadowColor: responsiveHeight(5),
+                elevation: 5,
+                backgroundColor: '#eaf4fc',
+              }}>
+              <TouchableOpacity
+                style={{flex: 0.7}}
+                onPress={() =>
+                  navigation.navigate('CompassOverlay', {option: options[2]})
+                }>
                 <Image
                   source={options[3].imageSource}
                   style={{
@@ -341,87 +318,85 @@ const MainScreen = ({navigation}) => {
                     paddingTop: responsiveHeight(2),
                   }}
                 />
+              </TouchableOpacity>
+              <View style={{flex: 0.3}}>
+                <Text
+                  style={{
+                    fontSize: responsiveFontSize(1.7),
+                    fontWeight: '600',
+                    color: '#000',
+                    marginTop: responsiveHeight(1.5),
+                    paddingHorizontal: responsiveWidth(2),
+                  }}
+                  numberOfLines={3}>
+                  {options[3].name}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: responsiveFontSize(1.5),
+                    fontWeight: '400',
+                    color: '#000',
+                    marginTop: responsiveHeight(1),
+                    paddingHorizontal: responsiveWidth(2),
+                  }}
+                  numberOfLines={3}>
+                  {options[3].description}
+                </Text>
+              </View>
+            </View>
 
-                <View style={{flex: 0.5}}>
-                  <Text
-                    style={{
-                      fontSize: responsiveFontSize(1.7),
-                      fontWeight: '600',
-                      color: '#000',
-                      marginTop: responsiveHeight(1.5),
-                      paddingHorizontal: responsiveWidth(2),
-                    }}
-                    numberOfLines={3}>
-                    {options[3].name}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: responsiveFontSize(1.5),
-                      fontWeight: '400',
-                      color: '#000',
-                      marginTop: responsiveHeight(1),
-                      paddingHorizontal: responsiveWidth(2),
-                    }}
-                    numberOfLines={3}>
-                    {options[3].description}
-                  </Text>
-                </View>
-              </LinearGradient>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('CompassOverlay', {option: options[3]})
-              }>
-              <LinearGradient
-                start={{x: 0, y: 1}}
-                end={{x: 1, y: 0}}
-                colors={['#eaf4fc', '#eaf4fc', '#eaf4fc']}
-                style={{
-                  width: responsiveWidth(45),
-                  height: responsiveHeight(25),
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: responsiveWidth(3),
-                  shadowColor: responsiveHeight(5),
-                  elevation: 5,
-                }}>
+            <View
+              style={{
+                flex: 1,
+                width: responsiveWidth(45),
+                height: responsiveHeight(25),
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: responsiveWidth(3),
+                shadowColor: responsiveHeight(5),
+                elevation: 5,
+                backgroundColor: '#eaf4fc',
+              }}>
+              <TouchableOpacity
+                style={{flex: 0.7}}
+                onPress={() =>
+                  navigation.navigate('CompassOverlay', {option: options[4]})
+                }>
                 <Image
                   source={options[4].imageSource}
                   style={{
-                    width: responsiveWidth(100),
-                    height: responsiveWidth(100),
+                    width: responsiveWidth(35),
+                    height: responsiveWidth(35),
                     resizeMode: 'contain',
                     flex: 1,
                   }}
                 />
-
-                <View style={{flex: 0.5}}>
-                  <Text
-                    style={{
-                      fontSize: responsiveFontSize(1.7),
-                      fontWeight: '600',
-                      color: '#000',
-                      marginTop: responsiveHeight(1.5),
-                      paddingHorizontal: responsiveWidth(2),
-                    }}
-                    numberOfLines={2}>
-                    {options[4].name}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: responsiveFontSize(1.5),
-                      fontWeight: '400',
-                      color: '#fff',
-                      marginTop: responsiveHeight(1),
-                      paddingHorizontal: responsiveWidth(2),
-                    }}
-                    numberOfLines={3}>
-                    {options[4].description}
-                  </Text>
-                </View>
-              </LinearGradient>
-            </TouchableOpacity>
+              </TouchableOpacity>
+              <View style={{flex: 0.3}}>
+                <Text
+                  style={{
+                    fontSize: responsiveFontSize(1.7),
+                    fontWeight: '600',
+                    color: '#000',
+                    marginTop: responsiveHeight(1.5),
+                    paddingHorizontal: responsiveWidth(2),
+                  }}
+                  numberOfLines={2}>
+                  {options[4].name}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: responsiveFontSize(1.5),
+                    fontWeight: '400',
+                    color: '#fff',
+                    marginTop: responsiveHeight(1),
+                    paddingHorizontal: responsiveWidth(2),
+                  }}
+                  numberOfLines={3}>
+                  {options[4].description}
+                </Text>
+              </View>
+            </View>
           </View>
         </View>
         {/* second View ui  */}
@@ -429,7 +404,6 @@ const MainScreen = ({navigation}) => {
         <View
           style={{
             flex: 1,
-
             justifyContent: 'center',
             alignItems: 'flex-start',
             paddingHorizontal: responsiveWidth(4),
@@ -439,76 +413,76 @@ const MainScreen = ({navigation}) => {
               flexDirection: 'row',
               gap: 10,
             }}>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('CompassOverlay', {option: options[4]})
-              }>
-              <LinearGradient
-                start={{x: 0, y: 1}}
-                end={{x: 1, y: 0}}
-                colors={['#eaf4fc', '#eaf4fc', '#eaf4fc']}
-                style={{
-                  width: responsiveWidth(45),
-                  height: responsiveHeight(25),
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: responsiveWidth(3),
-                  shadowColor: responsiveHeight(5),
-                  elevation: 5,
-                }}>
+            <View
+              style={{
+                flex: 1,
+                width: responsiveWidth(45),
+                height: responsiveHeight(25),
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: responsiveWidth(3),
+                shadowColor: responsiveHeight(5),
+                elevation: 5,
+                backgroundColor: '#eaf4fc',
+              }}>
+              <TouchableOpacity
+                style={{flex: 0.7}}
+                onPress={() =>
+                  navigation.navigate('CompassOverlay', {option: options[2]})
+                }>
                 <Image
                   source={options[2].imageSource}
                   style={{
                     flex: 1,
-                    width: responsiveWidth(100),
-                    height: responsiveWidth(100),
+                    width: responsiveWidth(43),
+                    height: responsiveWidth(43),
                     resizeMode: 'contain',
                   }}
                 />
+              </TouchableOpacity>
+              <View style={{flex: 0.3}}>
+                <Text
+                  style={{
+                    fontSize: responsiveFontSize(1.7),
+                    fontWeight: '600',
+                    color: '#000',
+                    marginTop: responsiveHeight(1.5),
+                    paddingHorizontal: responsiveWidth(2),
+                  }}
+                  numberOfLines={3}>
+                  {options[2].name}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: responsiveFontSize(1.5),
+                    fontWeight: '400',
+                    color: '#000',
+                    marginTop: responsiveHeight(1),
+                    paddingHorizontal: responsiveWidth(2),
+                  }}
+                  numberOfLines={3}>
+                  {options[2].description}
+                </Text>
+              </View>
+            </View>
 
-                <View style={{flex: 0.5}}>
-                  <Text
-                    style={{
-                      fontSize: responsiveFontSize(1.7),
-                      fontWeight: '600',
-                      color: '#000',
-                      marginTop: responsiveHeight(1.5),
-                      paddingHorizontal: responsiveWidth(2),
-                    }}
-                    numberOfLines={3}>
-                    {options[2].name}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: responsiveFontSize(1.5),
-                      fontWeight: '400',
-                      color: '#000',
-                      marginTop: responsiveHeight(1),
-                      paddingHorizontal: responsiveWidth(2),
-                    }}
-                    numberOfLines={3}>
-                    {options[2].description}
-                  </Text>
-                </View>
-              </LinearGradient>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('CompassOverlay', {option: options[5]})
-              }>
-              <LinearGradient
-                start={{x: 0, y: 1}}
-                end={{x: 1, y: 0}}
-                colors={['#eaf4fc', '#eaf4fc', '#eaf4fc']}
-                style={{
-                  width: responsiveWidth(45),
-                  height: responsiveHeight(25),
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: responsiveWidth(3),
-                  shadowColor: responsiveHeight(5),
-                  elevation: 5,
-                }}>
+            <View
+              style={{
+                flex: 1,
+                width: responsiveWidth(45),
+                height: responsiveHeight(25),
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: responsiveWidth(3),
+                shadowColor: responsiveHeight(5),
+                elevation: 5,
+                backgroundColor: '#eaf4fc',
+              }}>
+              <TouchableOpacity
+                style={{flex: 0.7}}
+                onPress={() =>
+                  navigation.navigate('CompassOverlay', {option: options[5]})
+                }>
                 <Image
                   source={options[5].imageSource}
                   style={{
@@ -518,33 +492,32 @@ const MainScreen = ({navigation}) => {
                     resizeMode: 'contain',
                   }}
                 />
-
-                <View style={{flex: 0.5}}>
-                  <Text
-                    style={{
-                      fontSize: responsiveFontSize(1.7),
-                      fontWeight: '600',
-                      color: '#000',
-                      marginTop: responsiveHeight(1.5),
-                      paddingHorizontal: responsiveWidth(2),
-                    }}
-                    numberOfLines={2}>
-                    {options[5].name}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: responsiveFontSize(1.5),
-                      fontWeight: '400',
-                      color: '#000',
-                      marginTop: responsiveHeight(1),
-                      paddingHorizontal: responsiveWidth(2),
-                    }}
-                    numberOfLines={3}>
-                    {options[5].description}
-                  </Text>
-                </View>
-              </LinearGradient>
-            </TouchableOpacity>
+              </TouchableOpacity>
+              <View style={{flex: 0.3}}>
+                <Text
+                  style={{
+                    fontSize: responsiveFontSize(1.7),
+                    fontWeight: '600',
+                    color: '#000',
+                    marginTop: responsiveHeight(1.5),
+                    paddingHorizontal: responsiveWidth(2),
+                  }}
+                  numberOfLines={2}>
+                  {options[5].name}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: responsiveFontSize(1.5),
+                    fontWeight: '400',
+                    color: '#000',
+                    marginTop: responsiveHeight(1),
+                    paddingHorizontal: responsiveWidth(2),
+                  }}
+                  numberOfLines={3}>
+                  {options[5].description}
+                </Text>
+              </View>
+            </View>
           </View>
         </View>
       </View>

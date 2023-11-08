@@ -499,6 +499,7 @@
 			baseConfigurationReference = 78B8D0C375CD31B3D412909E /* Pods-SMartLuoPan.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -508,6 +509,8 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				INFOPLIST_FILE = SMartLuoPan/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SMartLuoPan;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -533,6 +536,7 @@
 			baseConfigurationReference = 30BFAE01587551D60DA9F465 /* Pods-SMartLuoPan.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = SMartLuoPan/SMartLuoPanRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -544,6 +548,8 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				INFOPLIST_FILE = SMartLuoPan/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SMartLuoPan;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -556,10 +562,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.SMartLuoPanDistribution.com;
+				PRODUCT_BUNDLE_IDENTIFIER = com.SMartLuoPanBundleID;
 				PRODUCT_NAME = SMartLuoPan;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = SMartLuoPanProv;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = workedThisProv;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
