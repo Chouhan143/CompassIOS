@@ -4,6 +4,7 @@ import {
   responsiveWidth,
   responsiveHeight,
   responsiveFontSize,
+  responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
 import {
   View,
@@ -130,6 +131,7 @@ const Login = () => {
               color: '#fff',
               shadowColor: '#fff',
               elevation: 1,
+              fontSize: responsiveScreenFontSize(1.5),
             }}
           />
 
@@ -150,6 +152,7 @@ const Login = () => {
               elevation: 1,
               marginTop: responsiveHeight(2),
               color: '#fff',
+              fontSize: responsiveScreenFontSize(1.5),
             }}
           />
 

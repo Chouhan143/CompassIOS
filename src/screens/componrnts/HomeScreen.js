@@ -42,11 +42,6 @@ const HomeScreen = () => {
 
       <View style={styles.container}>
         {/* Background Image */}
-        <Image
-          source={require('../assets/images/LuoPanImage.jpeg')}
-          resizeMode="contain" // You can use 'cover' to fill the entire view
-          style={styles.backgroundImage}
-        />
 
         {/* Other Components */}
         <View style={styles.content}>
@@ -56,7 +51,17 @@ const HomeScreen = () => {
           </Text>
           {/* Add more components here */}
         </View>
-
+        <View style={styles.backgroundImage}>
+          <Image
+            source={require('../assets/images/LuoPanImage.jpeg')}
+            resizeMode="stretch" // You can use 'cover' to fill the entire view
+            style={{
+              width: responsiveWidth(100),
+              height: responsiveHeight(100),
+              flex: 0.9,
+            }}
+          />
+        </View>
         <View style={styles.content2}>
           <TouchableOpacity
             style={{
@@ -91,7 +96,7 @@ const HomeScreen = () => {
               height: responsiveHeight(6.5),
               borderRadius: responsiveWidth(50),
               paddingHorizontal: responsiveWidth(5),
-              marginTop: responsiveHeight(2),
+              marginTop: responsiveHeight(1),
               shadowColor: '#A69EEC',
               backgroundColor: '#0a2240',
               elevation: 5,
@@ -125,21 +130,21 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
-    width: '100%',
-    height: '100%',
-    position: 'absolute', // To layer it behind other components
+    justifyContent: 'center',
+
+    // position: 'absolute', // To layer it behind other components
   },
   content: {
-    flex: 1,
+    flex: 0.2,
     alignItems: 'center',
-    paddingTop: responsiveHeight(10),
+    paddingTop: responsiveHeight(5),
     // justifyContent: 'center',
   },
   content2: {
-    flex: 1,
+    flex: 0.3,
     alignItems: 'center',
     justifyContent: 'flex-end',
-    marginBottom: responsiveHeight(2),
+    // marginBottom: responsiveHeight(1),
   },
   textHeading: {
     fontSize: responsiveFontSize(3),

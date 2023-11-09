@@ -35,13 +35,12 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to your camera for capturing photos in our app.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>location permision always</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-<string>We need access to your location for providing location-based services in our app.</string>
-<key>NSCameraUsageDescription</key>
-<string>We need access to your camera for capturing photos in our app.</string>
-
+	<string>We need access to your location for providing location-based services in our app.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -74,12 +73,6 @@
 	<string></string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>

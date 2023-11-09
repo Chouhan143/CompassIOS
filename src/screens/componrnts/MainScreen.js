@@ -53,31 +53,31 @@ const MainScreen = ({navigation}) => {
     },
     {
       name: 'Annual Ring 2024',
-      imageSource: require('../assets/images/Basic.png'),
-      imageSource2: require('../assets/images/Basic.png'),
+      imageSource: require('../assets/images/2024AunnalRing.png'),
+      imageSource2: require('../assets/images/2024AunnalRing.png'),
     },
     {
       name: 'Period 8 & Period 9 Flying Star LuoPan',
-      imageSource: require('../assets/images/FlyingStarPeriod8&9.png'),
-      imageSource2: require('../assets/images/FlyingStarPeriod8&9.png'),
+      imageSource: require('../assets/images/FlyingStar.png'),
+      imageSource2: require('../assets/images/FlyingStar.png'),
     },
     {
       name: 'Xuan Kong Da Gua Rings ',
-      imageSource: require('../assets/images/XKDG.png'),
-      imageSource2: require('../assets/images/XKDG.png'),
+      imageSource: require('../assets/images/XuangKon.png'),
+      imageSource2: require('../assets/images/XuangKon.png'),
     },
 
     {
       compasId2: 3,
-      name: 'Transparent vector LuoPAn',
-      imageSource: require('../assets/images/TransparentVectoLuoPAn.png'),
-      imageSource2: require('../assets/images/TransparentVectoLuoPAn.png'),
+      name: 'Smart LuoPan Transparent Version',
+      imageSource: require('../assets/images/SmartLuoPanTransparetVersion.png'),
+      imageSource2: require('../assets/images/SmartLuoPanTransparetVersion.png'),
     },
 
     {
       name: 'Annual Ring 2023',
-      imageSource: require('../assets/images/AnnualRing2023.png'),
-      imageSource2: require('../assets/images/AnnualRing2023.png'),
+      imageSource: require('../assets/images/2023Annual.png'),
+      imageSource2: require('../assets/images/2023Annual.png'),
     },
   ];
 
@@ -164,10 +164,14 @@ const MainScreen = ({navigation}) => {
           <TouchableOpacity
             onPress={() => navigation.navigate('Ebook')}
             style={{paddingRight: responsiveWidth(3)}}>
-            <SimpleLineIcons name="notebook" size={20} color="#fff" />
+            <SimpleLineIcons
+              name="notebook"
+              size={responsiveWidth(5)}
+              color="#fff"
+            />
           </TouchableOpacity>
           <TouchableOpacity onPress={handleLogout}>
-            <Icon4 name="logout" size={25} color="#fff" />
+            <Icon4 name="logout" size={responsiveWidth(5)} color="#fff" />
           </TouchableOpacity>
         </View>
       </View>
@@ -254,8 +258,8 @@ const MainScreen = ({navigation}) => {
                 <Image
                   source={options[1].imageSource}
                   style={{
-                    width: responsiveWidth(45),
-                    height: responsiveWidth(45),
+                    width: responsiveWidth(43),
+                    height: responsiveWidth(43),
                     resizeMode: 'contain',
                     flex: 1,
                   }}
@@ -312,8 +316,8 @@ const MainScreen = ({navigation}) => {
                   source={options[3].imageSource}
                   style={{
                     flex: 1,
-                    width: responsiveWidth(100),
-                    height: responsiveWidth(100),
+                    width: responsiveWidth(40),
+                    height: responsiveWidth(40),
                     resizeMode: 'contain',
                     paddingTop: responsiveHeight(2),
                   }}
@@ -365,8 +369,8 @@ const MainScreen = ({navigation}) => {
                 <Image
                   source={options[4].imageSource}
                   style={{
-                    width: responsiveWidth(35),
-                    height: responsiveWidth(35),
+                    width: responsiveWidth(40),
+                    height: responsiveWidth(40),
                     resizeMode: 'contain',
                     flex: 1,
                   }}
@@ -434,8 +438,8 @@ const MainScreen = ({navigation}) => {
                   source={options[2].imageSource}
                   style={{
                     flex: 1,
-                    width: responsiveWidth(43),
-                    height: responsiveWidth(43),
+                    width: responsiveWidth(40),
+                    height: responsiveWidth(40),
                     resizeMode: 'contain',
                   }}
                 />
@@ -487,8 +491,8 @@ const MainScreen = ({navigation}) => {
                   source={options[5].imageSource}
                   style={{
                     flex: 1,
-                    width: responsiveWidth(45),
-                    height: responsiveWidth(45),
+                    width: responsiveWidth(43),
+                    height: responsiveWidth(43),
                     resizeMode: 'contain',
                   }}
                 />
