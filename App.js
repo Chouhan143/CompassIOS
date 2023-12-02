@@ -1,5 +1,5 @@
 import * as React from 'react';
-// import 'react-native-gesture-handler';
+import 'react-native-gesture-handler';
 import {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
@@ -18,7 +18,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import CustomSideMenu from './src/screens/componrnts/CustomSideMenu';
-// import Login from './src/screens/LoginSignUp/Login';
 import Login from './src/screens/LoginSignUp/Login';
 import SignUp from './src/screens/LoginSignUp/SignUp';
 import ModalComponent from './src/screens/componrnts/ModalComponent';
@@ -35,10 +34,11 @@ const Stack = createStackNavigator();
 
 function App() {
   const publishableKey =
-    'pk_test_51O1ruqGeHhuFbcStdbNBd4c8Nv1didmZ5pSfSqEIxOuAmVm6YYbI9ZqFDB7eEtXgbOW7aG5XFm7kH22xBNgasrcF00zsIMzz6f';
+    'pk_live_51O1ruqGeHhuFbcSto0o2KGgUJ8Rzq2ZgTbR0KvZv39sx9mFmEqJQV3dM3HPmdHuEPrt71NU1CnGRohrv98aayuot00IQGDaawF';
 
   const {isLoggedIn, setIsLoggedIn} = useLogin();
   const [initializing, setInitializing] = useState(true);
+  const [checkUserPayment, setCheckUserPayment] = useState('');
   console.log('isLoggedIn', isLoggedIn);
   const GradientHeader1 = () => {
     const navigation = useNavigation();
@@ -72,7 +72,7 @@ function App() {
     );
   };
 
-  const GradientHeader2 = () => {
+  const GradientHeader3 = () => {
     const navigation = useNavigation();
     return (
       <LinearGradient
@@ -98,7 +98,7 @@ function App() {
             fontWeight: '700',
             paddingLeft: responsiveWidth(3),
           }}>
-          Compass Overlay
+          Ebook
         </Text>
       </LinearGradient>
     );
@@ -109,6 +109,9 @@ function App() {
     const checkToken = async () => {
       try {
         const token = await AsyncStorage.getItem('access_token');
+        const paymentStatus = await AsyncStorage.getItem('paymentStatus');
+        setCheckUserPayment(JSON.parse(paymentStatus));
+
         if (token) {
           setIsLoggedIn(token);
         }
@@ -130,7 +133,13 @@ function App() {
     <NavigationContainer>
       <StripeProvider publishableKey={publishableKey}>
         <Stack.Navigator
-          initialRouteName={isLoggedIn ? 'Home' : 'HomeScreen'}
+          initialRouteName={
+            isLoggedIn
+              ? checkUserPayment
+                ? 'Home'
+                : 'HomeScreen'
+              : 'HomeScreen'
+          }
           // drawerContent={props => <CustomSideMenu {...props} />}
         >
           <Stack.Screen
@@ -160,56 +169,33 @@ function App() {
           <Stack.Screen
             name="CustomSideMenu"
             component={CustomSideMenu}
-            // options={{
-            //   header: () => <GradientHeader1 />,
-            //   headerTitleStyle: {alignSelf: 'center'},
-            //   headerTintColor: 'white',
-            // }}
-
             options={{
+              // header: () => <GradientHeader1 />,
               headerTitleStyle: {alignSelf: 'center'},
-              headerBackgroundColor: 'red',
-              headerTintColor: '#fff',
-              headerStyle: {
-                backgroundColor: '#0a2240', // Set the background color to blue
-              },
+              headerTintColor: 'white',
+              headerShown: true,
+              headerStyle: {backgroundColor: '#0a2240'},
             }}
           />
-
           <Stack.Screen
             name="PaymentScreen"
             component={PaymentScreen}
             options={{
-              headerShown: false,
+              headerTitleStyle: {alignSelf: 'center'},
+              headerTintColor: 'white',
+              headerShown: true,
+              headerStyle: {backgroundColor: '#0a2240'},
             }}
           />
           <Stack.Screen
             name="CompassOverlay"
             component={CompassOverlay}
-            // options={{
-            //   header: () => <GradientHeader2 />,
-            //   headerTitleStyle: {alignSelf: 'center'},
-            //   headerTintColor: 'white',
-            // }}
             options={{
+              // header: () => <GradientHeader2 />,
               headerTitleStyle: {alignSelf: 'center'},
-              headerBackgroundColor: 'red',
-              headerTintColor: '#fff',
-              headerStyle: {
-                backgroundColor: '#0a2240', // Set the background color to blue
-              },
-            }}
-          />
-          <Stack.Screen
-            name="Ebook"
-            component={Ebook}
-            options={{
-              headerTitleStyle: {alignSelf: 'center'},
-              headerBackgroundColor: 'red',
-              headerTintColor: '#fff',
-              headerStyle: {
-                backgroundColor: '#0a2240', // Set the background color to blue
-              },
+              headerTintColor: 'white',
+              headerShown: true,
+              headerStyle: {backgroundColor: '#0a2240'},
             }}
           />
 
@@ -220,6 +206,19 @@ function App() {
               headerShown: false,
             }}
           />
+
+          <Stack.Screen
+            name="Ebook"
+            component={Ebook}
+            options={{
+              // header: () => <GradientHeader3 />,
+              headerTitleStyle: {alignSelf: 'center'},
+              headerTintColor: 'white',
+              headerShown: true,
+              headerStyle: {backgroundColor: '#0a2240'},
+            }}
+          />
+
           <Stack.Screen
             name="Login"
             component={Login}
@@ -236,7 +235,7 @@ function App() {
           />
         </Stack.Navigator>
 
-        {/* <MainNavigator /> */}
+        {/* {/ <MainNavigator /> /} */}
       </StripeProvider>
     </NavigationContainer>
   );

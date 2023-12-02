@@ -34,7 +34,7 @@ const CustomSideMenu = () => {
   const [ExpDate, setExpdate] = useState('');
   const [status, setStatus] = useState('');
 
-  const Home = <Icon name="home" size={20} color="#000" />;
+  const Home = <Icon name="home" size={responsiveFontSize(2)} color="#000" />;
   const Compass = <Icon2 name="direction" size={20} color="#000" />;
   const [userName, setUserName] = useState('');
   const Profile = <Icon name="profile" size={20} color="#000" />;
@@ -76,6 +76,44 @@ const CustomSideMenu = () => {
       ],
       {cancelable: false}, // Prevent dismissing the dialog by tapping outside of it
     );
+  };
+  const DeletUserAcount = async () => {
+    try {
+      const token = await AsyncStorage.getItem('access_token');
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      };
+      const userDeleteRes = await axios.delete(
+        'https://smartluopan.com/api/delete-account',
+        {headers},
+      );
+
+      Alert.alert(
+        'Delete Account Confirmation',
+        'Are you sure you want to Delete Your Account?',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'Delete Account',
+            onPress: async () => {
+              // Clear the token from AsyncStorage
+              if (userDeleteRes.config.data == null) {
+                navigation.navigate('Login');
+              }
+            },
+          },
+        ],
+        {cancelable: false}, // Prevent dismissing the dialog by tapping outside of it
+      );
+
+      console.log('deleted', userDeleteRes.data.message);
+    } catch (error) {
+      console.log('error', error);
+    }
   };
 
   const Item = ({icon, title, onPress, backgroundColor, color, screenName}) => {
@@ -242,20 +280,24 @@ const CustomSideMenu = () => {
         <View style={{flex: 0.09, backgroundColor: '#fff'}}>
           <FlatList data={listArray} renderItem={renderItem} />
         </View>
-        <View style={{flex: 0.6, backgroundColor: '#fff'}}>
+        <View style={{flex: 0.7, backgroundColor: '#fff'}}>
           <View
             style={{
               justifyContent: 'flex-start',
               flexDirection: 'row',
               marginLeft: responsiveWidth(5),
             }}>
-            <Icon4 name="subscriptions" size={20} color="#000" />
+            <Icon4
+              name="subscriptions"
+              size={responsiveFontSize(2)}
+              color="#000"
+            />
             <Text
               style={{
                 paddingLeft: responsiveWidth(5),
                 color: '#000',
                 fontWeight: '700',
-                fontSize: responsiveFontSize(2),
+                fontSize: responsiveFontSize(1.8),
               }}>
               Subscription
             </Text>
@@ -265,7 +307,7 @@ const CustomSideMenu = () => {
             style={{
               // justifyContent: 'center',
               // alignItems: 'center',
-              padding: responsiveWidth(5),
+              padding: responsiveWidth(4),
               width: responsiveWidth(90),
               height: responsiveHeight(44),
               borderRadius: responsiveWidth(3),
@@ -295,6 +337,7 @@ const CustomSideMenu = () => {
                   Transaction Expiry : {ExpDate}
                 </Text>
               </View>
+
               <View
                 style={
                   status === 'Succeeded'
@@ -305,6 +348,16 @@ const CustomSideMenu = () => {
                   Status : {status}
                 </Text>
               </View>
+
+              {/* User Account Delete */}
+
+              <TouchableOpacity
+                style={[styles.succeedBackground, {backgroundColor: 'red'}]}
+                onPress={DeletUserAcount}>
+                <Text style={[styles.subscription, {color: '#fff'}]}>
+                  Delete Account
+                </Text>
+              </TouchableOpacity>
             </View>
             {/* </View> */}
           </View>
@@ -325,7 +378,7 @@ const CustomSideMenu = () => {
           }}
           onPress={handleLogout}>
           {/* <FlatList data={BottomList} renderItem={renderItem} /> */}
-          <Icon4 name="logout" size={20} color="#fff" />
+          <Icon4 name="logout" size={responsiveFontSize(2)} color="#fff" />
           <Text
             style={{
               fontSize: responsiveFontSize(2),
@@ -350,14 +403,14 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   subscriptionView: {
-    marginVertical: responsiveHeight(1),
+    marginVertical: responsiveHeight(0.5),
     backgroundColor: '#fff',
     padding: responsiveHeight(1.5),
     borderRadius: responsiveWidth(1),
   },
   succeedBackground: {
     backgroundColor: 'green',
-    marginVertical: responsiveHeight(1),
+    marginVertical: responsiveHeight(0.2),
     padding: responsiveHeight(1.5),
     borderRadius: responsiveWidth(1),
   },

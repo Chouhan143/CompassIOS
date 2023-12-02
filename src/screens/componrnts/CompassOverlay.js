@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   Platform,
   StatusBar,
+  Alert,
 } from 'react-native';
 import {
   responsiveWidth,
@@ -32,6 +33,7 @@ const CompassOverlay = ({route}) => {
   const [longitude, setLongitude] = useState('');
   const [latitude, setlatitude] = useState('');
   const [qiblad, setQiblad] = useState(0);
+  const [isLocationEnabled, setIsLocationEnabled] = useState(false);
   const [showMap, setShowMap] = useState(false); // State variable to toggle between compass and map views
   const [locationName, setLocationName] = useState('');
   Geocoding.init('AIzaSyC8US8kyT5h4eZIjWxBWuCDqLB2WOWenb4');
@@ -64,35 +66,6 @@ const CompassOverlay = ({route}) => {
     setQiblad(qiblad);
   };
 
-  // location Name
-
-  // const getLocation = async () => {
-  //   Geolocation.getCurrentPosition(info => console.log(info));
-
-  //   if (locationPermission === RESULTS.GRANTED) {
-  //     Geolocation.getCurrentPosition(
-  //       position => {
-  //         const {latitude, longitude} = position.coords;
-  //         setlatitude(latitude);
-  //         setLongitude(longitude);
-  //         console.log(latitude, longitude, 'latitude and longitude');
-  //         calculate(latitude, longitude);
-  //       },
-  //       error => {
-  //         console.error(error.code, error.message, 'error');
-  //       },
-  //       {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-  //     );
-  //   } else {
-  //     const permissionResult = await request(locationPermission);
-  //     if (permissionResult === RESULTS.GRANTED) {
-  //       getLocation();
-  //     } else {
-  //       console.log('Location permission denied.');
-  //     }
-  //   }
-  // };
-
   const getLocation = async () => {
     Geolocation.getCurrentPosition(info => console.log(info));
 
@@ -103,6 +76,7 @@ const CompassOverlay = ({route}) => {
         setLongitude(longitude);
         console.log(latitude, longitude, 'latitude and longitude');
         calculate(latitude, longitude);
+        setIsLocationEnabled(true);
       },
       error => {
         if (error.code === 1) {
@@ -111,6 +85,7 @@ const CompassOverlay = ({route}) => {
             'Permission Denied',
             'Please enable location access in your settings.',
           );
+          setIsLocationEnabled(false);
         } else {
           console.error(error.code, error.message, 'error');
         }
@@ -123,7 +98,7 @@ const CompassOverlay = ({route}) => {
     try {
       const response = await Geocoding.from({latitude, longitude});
       if (response.results && response.results.length > 0) {
-        const addressComponent = response.results[0].formatted_address; // Adjust the index based on your requirements
+        const addressComponent = response.results[0].formatted_address;
         const locationName = addressComponent;
         setLocationName(locationName);
       } else {
@@ -308,26 +283,6 @@ const CompassOverlay = ({route}) => {
                 flex: 1,
                 backgroundColor: '#eaf4fc',
               }}>
-              {/* <View style={{position: 'absolute', flex: 1}}>
-                <View
-                  style={{
-                    position: 'absolute',
-                    width: '100%', // Full width
-                    height: 2, // Height of the horizontal line
-                    backgroundColor: 'red', // Color of the line
-                    top: '50%', // Position it vertically in the middle
-                  }}
-                />
-                <View
-                  style={{
-                    position: 'absolute',
-                    width: 2, // Width of the vertical line
-                    height: '100%', // Full height
-                    backgroundColor: 'red', // Color of the line
-                    left: '50%', // Position it horizontally in the middle
-                  }}
-                />
-              </View> */}
               <View style={styles.map}>
                 <View style={styles.horizontalLine} />
 
@@ -446,7 +401,10 @@ const CompassOverlay = ({route}) => {
 
         {option.compasId === 1 || option.compasId2 === 3 ? (
           <TouchableOpacity
-            onPress={() => setShowMap(!showMap)}
+            onPress={() => {
+              getLocation(); // Call getLocation when the button is pressed
+              setShowMap(!showMap);
+            }}
             style={{
               position: 'absolute',
               top: 20,
@@ -456,7 +414,9 @@ const CompassOverlay = ({route}) => {
               borderColor: 'red',
               borderWidth: 2,
               borderStyle: 'dashed',
-            }}>
+              opacity: isLocationEnabled ? 1 : 0.5,
+            }}
+            disabled={!isLocationEnabled}>
             {showMap ? (
               <Image
                 source={require('../assets/images/compass.png')}
@@ -526,16 +486,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   map: {
-    // width: Dimensions.get('window').width,
-    // height: Dimensions.get('window').height,
     width: responsiveWidth(100),
     height: responsiveHeight(100),
   },
-
-  // map: {
-  //   width: Dimensions.get('window').width,
-  //   height: Dimensions.get('window').height,
-  // },
 
   horizontalLine: {
     position: 'absolute',

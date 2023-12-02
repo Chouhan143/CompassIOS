@@ -285,10 +285,10 @@ const ModalComponent = () => {
           style={styles.modalView}>
           <View style={{marginTop: responsiveHeight(6)}}>
             <Text style={styles.modalText}>Your First 3 months free</Text>
-            <Text
+            {/* <Text
               style={[styles.modalSubText, {marginTop: responsiveHeight(0.7)}]}>
               No commitment. Cancel anytime{' '}
-            </Text>
+            </Text> */}
           </View>
 
           <View
@@ -331,9 +331,9 @@ const ModalComponent = () => {
                     fontSize: responsiveFontSize(1.6),
                   },
                 ]}>
-                $30.99
+                $98
               </Text>
-              <Text style={styles.modalText}>$28</Text>
+              <Text style={styles.modalText}>$68</Text>
             </View>
 
             <View
@@ -351,7 +351,7 @@ const ModalComponent = () => {
                   fontWeight: '700',
                   fontSize: responsiveFontSize(2),
                 }}>
-                60%
+                30%
               </Text>
               <Text
                 style={{

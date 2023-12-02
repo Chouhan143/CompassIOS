@@ -23,11 +23,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import SubscriptionModal from './SubscriptionModal';
 import CustomSideMenu from './CustomSideMenu';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useLogin} from '../utils/context/LoginProvider';
+import {useLogin, useTransactionFlag} from '../utils/context/LoginProvider';
 
 const MainScreen = ({navigation}) => {
   const [userName, setUserName] = useState('');
   const {setIsLoggedIn} = useLogin();
+  const {transactionFlag} = useTransactionFlag();
   useEffect(() => {
     const backAction = () => {
       BackHandler.exitApp(); // Exit the app

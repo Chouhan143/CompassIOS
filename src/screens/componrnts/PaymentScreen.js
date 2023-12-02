@@ -20,11 +20,12 @@ import {
 } from 'react-native-responsive-dimensions';
 import axios from 'axios';
 const PaymentScreen = () => {
-  const [amount, setAmount] = useState(28);
+  const [amount, setAmount] = useState(68);
   const {confirmPayment, loading} = useConfirmPayment();
   const [cardInfo, setCardInfo] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorPayment, setErrorPayment] = useState('');
   const fetchCardDetail = cardDetail => {
     // console.log("my card details",cardDetail)
     if (cardDetail.complete) {
@@ -110,6 +111,8 @@ const PaymentScreen = () => {
           'Payment not successful',
           confirmPaymentIntent?.paymentIntent?.status,
         );
+        setErrorPayment('Invalid User Card Data');
+        setIsLoading(false);
       }
     } catch (error) {
       // Handle any errors that occur during the payment process
@@ -166,6 +169,11 @@ const PaymentScreen = () => {
           console.log('focusField', focusedField);
         }}
       />
+      <View style={{marginVertical: responsiveHeight(2)}}>
+        <Text style={{color: 'red', fontSize: responsiveFontSize(1.8)}}>
+          {errorPayment}
+        </Text>
+      </View>
       <ButtonComp onPress={ondone} disabled={!cardInfo} isLoading={isLoading} />
       <SuccessModal visible={isModalVisible} closeModal={closeModal} />
     </View>
