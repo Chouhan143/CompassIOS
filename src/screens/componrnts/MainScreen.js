@@ -24,6 +24,7 @@ import SubscriptionModal from './SubscriptionModal';
 import CustomSideMenu from './CustomSideMenu';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useLogin, useTransactionFlag} from '../utils/context/LoginProvider';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const MainScreen = ({navigation}) => {
   const [userName, setUserName] = useState('');
@@ -54,11 +55,11 @@ const MainScreen = ({navigation}) => {
     },
     {
       name: 'Annual Ring 2024 ',
-      imageSource: require('../assets/images/2024AunnalRing.png'),
-      imageSource2: require('../assets/images/2024AunnalRing.png'),
+      imageSource: require('../assets/images/LastOne2024.png'),
+      imageSource2: require('../assets/images/LastOne2024.png'),
     },
     {
-      name: 'Period 8 & Period 9 Flying Star LuoPan ',
+      name: 'Period 8 & Period 9 Flying Star LuoPan',
       imageSource: require('../assets/images/FlyingStar.png'),
       imageSource2: require('../assets/images/FlyingStar.png'),
     },
@@ -176,16 +177,18 @@ const MainScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
+      {/* top ui */}
 
-      <View
+      <ScrollView
+        showsVerticalScrollIndicator={false}
         style={{
           flex: 1,
           backgroundColor: '#f8f9f5',
           borderTopLeftRadius: responsiveWidth(12),
           borderTopRightRadius: responsiveWidth(12),
-          paddingTop: responsiveHeight(2.5),
+          // paddingTop: responsiveHeight(2.5),
         }}>
-        <View
+        {/* <View
           style={{
             flex: 1,
             justifyContent: 'center',
@@ -281,10 +284,10 @@ const MainScreen = ({navigation}) => {
               </View>
             </View>
           </View>
-        </View>
+        </View> */}
         {/* frist Ui View  */}
 
-        <View
+        {/* <View
           style={{
             flex: 1,
             justifyContent: 'center',
@@ -403,10 +406,10 @@ const MainScreen = ({navigation}) => {
               </View>
             </View>
           </View>
-        </View>
+        </View> */}
         {/* second View ui  */}
 
-        <View
+        {/* <View
           style={{
             flex: 1,
             justifyContent: 'center',
@@ -524,8 +527,518 @@ const MainScreen = ({navigation}) => {
               </View>
             </View>
           </View>
+        </View> */}
+
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: responsiveWidth(3),
+            shadowColor: responsiveHeight(5),
+            elevation: 5,
+            // paddingTop: responsiveHeight(2),
+            backgroundColor: '#eaf4fc',
+            marginTop: responsiveWidth(5),
+            margin: responsiveWidth(2),
+          }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+            }}>
+            <TouchableOpacity
+              style={{
+                flex: 0.5,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() =>
+                navigation.navigate('CompassOverlay', {option: options[0]})
+              }>
+              <View
+                style={{
+                  elevation: 5,
+                  shadowColor: 'black',
+                  width: responsiveWidth(42),
+                  height: responsiveWidth(42),
+                  backgroundColor: 'rgba(255, 255, 255,0.5)',
+                  borderRadius: responsiveWidth(21),
+                  justifyContt: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  source={options[0].imageSource2}
+                  style={{
+                    flex: 1,
+                    width: responsiveWidth(50),
+                    height: responsiveWidth(50),
+                    resizeMode: 'contain',
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
+
+            <View style={{flex: 0.5}}>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2.2),
+                  fontWeight: '800',
+                  color: '#000',
+                  marginTop: responsiveHeight(1.5),
+                  // paddingHorizontal: responsiveWidth(2),
+                  textAlign: 'center',
+                  letterSpacing: responsiveWidth(0.7),
+                }}
+                numberOfLines={2}>
+                {options[0].name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(1.7),
+                  fontWeight: '600',
+                  color: '#000',
+                  // marginTop: responsiveHeight(1.5),
+
+                  paddingHorizontal: responsiveWidth(2),
+                  paddingVertical: responsiveWidth(5),
+                }}>
+                This is a transparent version of the basic 24 Mountain ring to
+                find a generic direction and is by far going to be the most used
+                ring in your app. This ring has the added advantage of being
+                able to view under it, the GPS image of the location you are in.
+              </Text>
+            </View>
+          </View>
         </View>
-      </View>
+
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: responsiveWidth(3),
+            shadowColor: responsiveHeight(5),
+            elevation: 5,
+            // paddingTop: responsiveHeight(2),
+            backgroundColor: '#eaf4fc',
+            marginTop: responsiveWidth(5),
+            margin: responsiveWidth(2),
+          }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+            }}>
+            <TouchableOpacity
+              style={{
+                flex: 0.5,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() =>
+                navigation.navigate('CompassOverlay', {option: options[1]})
+              }>
+              <View
+                style={{
+                  elevation: 5,
+                  shadowColor: 'black',
+                  width: responsiveWidth(42),
+                  height: responsiveWidth(42),
+                  backgroundColor: 'rgba(255, 255, 255,0.5)',
+                  borderRadius: responsiveWidth(21),
+                  justifyContt: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  source={options[1].imageSource2}
+                  style={{
+                    flex: 1,
+                    width: responsiveWidth(50),
+                    height: responsiveWidth(50),
+                    resizeMode: 'contain',
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
+
+            <View style={{flex: 0.5}}>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2.2),
+                  fontWeight: '800',
+                  color: '#000',
+                  marginTop: responsiveHeight(1.5),
+                  // paddingHorizontal: responsiveWidth(2),
+                  textAlign: 'center',
+                  letterSpacing: responsiveWidth(0.7),
+                }}
+                numberOfLines={2}>
+                {options[1].name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(1.7),
+                  fontWeight: '600',
+                  color: '#000',
+                  // marginTop: responsiveHeight(1.5),
+                  paddingHorizontal: responsiveWidth(2),
+
+                  paddingVertical: responsiveWidth(5),
+                }}>
+                This transparent Annual 2024 template displays annual
+                components, including the annual star in each sector, the 4
+                Nobles, and Shas like Grand Duke, Year Breaker, 5 Yellows, Three
+                Killings. It also features Qi Men Dun Jia-related Doors, Stars,
+                and Deity locations for the year, offering comprehensive
+                insights.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: responsiveWidth(3),
+            shadowColor: responsiveHeight(5),
+            elevation: 5,
+            // paddingTop: responsiveHeight(2),
+            backgroundColor: '#eaf4fc',
+            marginTop: responsiveWidth(5),
+            margin: responsiveWidth(2),
+          }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+            }}>
+            <TouchableOpacity
+              style={{
+                flex: 0.5,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() =>
+                navigation.navigate('CompassOverlay', {option: options[3]})
+              }>
+              <View
+                style={{
+                  elevation: 5,
+                  shadowColor: 'black',
+                  width: responsiveWidth(42),
+                  height: responsiveWidth(42),
+                  backgroundColor: 'rgba(255, 255, 255,0.5)',
+                  borderRadius: responsiveWidth(21),
+                  justifyContt: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  source={options[3].imageSource2}
+                  style={{
+                    flex: 1,
+                    width: responsiveWidth(50),
+                    height: responsiveWidth(50),
+                    resizeMode: 'contain',
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
+
+            <View style={{flex: 0.5}}>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2.2),
+                  fontWeight: '800',
+                  color: '#000',
+                  marginTop: responsiveHeight(1.5),
+                  // paddingHorizontal: responsiveWidth(2),
+                  textAlign: 'center',
+                  letterSpacing: responsiveWidth(0.7),
+                }}
+                numberOfLines={2}>
+                {options[3].name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(1.7),
+                  fontWeight: '600',
+                  color: '#000',
+                  // marginTop: responsiveHeight(1.5),
+                  paddingHorizontal: responsiveWidth(2),
+                  paddingVertical: responsiveWidth(5),
+                }}>
+                Transparent SmartLuoPan®, tailored for Xuan Kong Da Gua
+                assessment, incorporates essential rings. This physical tool
+                enhances insights into Xuan Kong Feng Shui, providing a
+                comprehensive view for accurate assessments. The included rings
+                ensure relevance and practicality in navigating the complexities
+                of this ancient Chinese metaphysical practice.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: responsiveWidth(3),
+            shadowColor: responsiveHeight(5),
+            elevation: 5,
+            // paddingTop: responsiveHeight(2),
+            backgroundColor: '#eaf4fc',
+            marginTop: responsiveWidth(5),
+            margin: responsiveWidth(2),
+          }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+            }}>
+            <TouchableOpacity
+              style={{
+                flex: 0.5,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() =>
+                navigation.navigate('CompassOverlay', {option: options[4]})
+              }>
+              <View
+                style={{
+                  elevation: 5,
+                  shadowColor: 'black',
+                  width: responsiveWidth(42),
+                  height: responsiveWidth(42),
+                  backgroundColor: 'rgba(255, 255, 255,0.5)',
+                  borderRadius: responsiveWidth(21),
+                  justifyContt: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  source={options[4].imageSource2}
+                  style={{
+                    flex: 1,
+                    width: responsiveWidth(50),
+                    height: responsiveWidth(50),
+                    resizeMode: 'contain',
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
+
+            <View style={{flex: 0.5}}>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2.2),
+                  fontWeight: '800',
+                  color: '#000',
+                  marginTop: responsiveHeight(1.5),
+                  // paddingHorizontal: responsiveWidth(2),
+                  textAlign: 'center',
+                  letterSpacing: responsiveWidth(0.7),
+                }}
+                numberOfLines={2}>
+                {options[4].name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(1.7),
+                  fontWeight: '600',
+                  color: '#000',
+                  // marginTop: responsiveHeight(1.5),
+                  paddingHorizontal: responsiveWidth(2),
+                  paddingVertical: responsiveWidth(5),
+                }}>
+                This is a transparent version of our physical SmartLuoPan® which
+                has the added advantage of being able to view under it, the GPS
+                image of the location you are in. Do refer to the SMartLuoPan®
+                guide for more information on how to make the most of this item.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: responsiveWidth(3),
+            shadowColor: responsiveHeight(5),
+            elevation: 5,
+            // paddingTop: responsiveHeight(2),
+            backgroundColor: '#eaf4fc',
+            marginTop: responsiveWidth(5),
+            margin: responsiveWidth(2),
+          }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+            }}>
+            <TouchableOpacity
+              style={{
+                flex: 0.5,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() =>
+                navigation.navigate('CompassOverlay', {option: options[2]})
+              }>
+              <View
+                style={{
+                  elevation: 5,
+                  shadowColor: 'black',
+                  width: responsiveWidth(42),
+                  height: responsiveWidth(42),
+                  backgroundColor: 'rgba(255, 255, 255,0.5)',
+                  borderRadius: responsiveWidth(21),
+                  justifyContt: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  source={options[2].imageSource2}
+                  style={{
+                    flex: 1,
+                    width: responsiveWidth(50),
+                    height: responsiveWidth(50),
+                    resizeMode: 'contain',
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
+
+            <View
+              style={{
+                flex: 0.5,
+              }}>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2.2),
+                  fontWeight: '800',
+                  color: '#000',
+                  marginTop: responsiveHeight(1.5),
+                  // paddingHorizontal: responsiveWidth(2),
+                  textAlign: 'center',
+                  letterSpacing: responsiveWidth(0.7),
+                }}
+                numberOfLines={2}>
+                {options[2].name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(1.7),
+                  fontWeight: '600',
+                  color: '#000',
+                  // marginTop: responsiveHeight(1.5),
+                  paddingHorizontal: responsiveWidth(2),
+                  paddingVertical: responsiveWidth(5),
+                }}>
+                This is a transparent version of the Period 8 and Period 9 rings
+                that have been extracted from our SMartLuoPan® in order to be
+                more visible. It has the added advantage of being able to view
+                under it, the GPS image of the location you are in. The 24
+                mountains are also in English and color coded as per their Na
+                Jia elements.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: responsiveWidth(3),
+            shadowColor: responsiveHeight(5),
+            elevation: 5,
+            // paddingTop: responsiveHeight(2),
+            backgroundColor: '#eaf4fc',
+            marginTop: responsiveWidth(5),
+            margin: responsiveWidth(2),
+          }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+            }}>
+            <TouchableOpacity
+              style={{
+                flex: 0.5,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() =>
+                navigation.navigate('CompassOverlay', {option: options[5]})
+              }>
+              <View
+                style={{
+                  elevation: 5,
+                  shadowColor: 'black',
+                  width: responsiveWidth(42),
+                  height: responsiveWidth(42),
+                  backgroundColor: 'rgba(255, 255, 255,0.5)',
+                  borderRadius: responsiveWidth(21),
+                  justifyContt: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  source={options[5].imageSource2}
+                  style={{
+                    flex: 1,
+                    width: responsiveWidth(50),
+                    height: responsiveWidth(50),
+                    resizeMode: 'contain',
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
+
+            <View
+              style={{
+                flex: 0.5,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2.2),
+                  fontWeight: '800',
+                  color: '#000',
+                  marginTop: responsiveHeight(1.5),
+                  // paddingHorizontal: responsiveWidth(2),
+                  textAlign: 'center',
+                  letterSpacing: responsiveWidth(0.7),
+                }}
+                numberOfLines={2}>
+                {options[5].name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(1.7),
+                  fontWeight: '600',
+                  color: '#000',
+                  // marginTop: responsiveHeight(1.5),
+                  paddingHorizontal: responsiveWidth(2),
+                  paddingVertical: responsiveWidth(5),
+                }}>
+                Transparent Annual 2023 template provides a holistic view of
+                annual components: annual star, 4 Nobles, Shas like Grand Duke,
+                Year Breaker, 5 Yellows & Three Killings. It offers the unique
+                advantage of viewing the GPS image of your location underneath.
+                The 24 mountains, color-coded by Na Jia elements, are presented
+                in English for clarity.
+              </Text>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
