@@ -58,7 +58,7 @@ const MainScreen = ({navigation}) => {
       imageSource2: require('../assets/images/2024AunnalRing.png'),
     },
     {
-      name: 'Period 8 & Period 9 Flying Star LuoPan',
+      name: 'Period 8 & Period 9 Flying Star LuoPan ',
       imageSource: require('../assets/images/FlyingStar.png'),
       imageSource2: require('../assets/images/FlyingStar.png'),
     },
