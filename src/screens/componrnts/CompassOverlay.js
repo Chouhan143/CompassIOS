@@ -17,7 +17,7 @@ import {
   responsiveHeight,
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
-import Pinchable from 'react-native-pinchable';
+
 import LinearGradient from 'react-native-linear-gradient';
 import CompassHeading from 'react-native-compass-heading'; // Use only CompassHeading
 // import Geolocation from 'react-native-geolocation-service';
