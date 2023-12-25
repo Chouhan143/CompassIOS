@@ -232,7 +232,7 @@ const CustomSideMenu = () => {
     <SafeAreaView style={{flex: 1}}>
       <StatusBar
         backgroundColor="#000080" // Set the status bar background color to match your SafeAreaView
-        barStyle="light-content" // Set the status bar text color
+        barStyle="dark" // Set the status bar text color
       />
       <View style={{flex: 1}}>
         <View style={{flex: 0.3}}>

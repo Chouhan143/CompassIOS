@@ -30,6 +30,7 @@ const MainScreen = ({navigation}) => {
   const [userName, setUserName] = useState('');
   const {setIsLoggedIn} = useLogin();
   const {transactionFlag} = useTransactionFlag();
+  const [checkUserPayment, setCheckUserPayment] = useState('');
   useEffect(() => {
     const backAction = () => {
       BackHandler.exitApp(); // Exit the app
@@ -45,6 +46,26 @@ const MainScreen = ({navigation}) => {
   }, []);
 
   // console.log()
+
+  useEffect(() => {
+    // Check if a token exists in AsyncStorage
+    const checkToken = async () => {
+      try {
+        const token = await AsyncStorage.getItem('access_token');
+        const paymentStatus = await AsyncStorage.getItem('paymentStatus');
+        setCheckUserPayment(JSON.parse(paymentStatus));
+
+        if (token) {
+          setIsLoggedIn(token);
+        }
+        setInitializing(false);
+      } catch (error) {
+        // Handle AsyncStorage read error
+        setInitializing(false);
+      }
+    };
+    checkToken();
+  }, [setIsLoggedIn]);
 
   const options = [
     {
@@ -554,7 +575,10 @@ const MainScreen = ({navigation}) => {
                 alignItems: 'center',
               }}
               onPress={() =>
-                navigation.navigate('CompassOverlay', {option: options[0]})
+                navigation.navigate(
+                  checkUserPayment ? 'CompassOverlay' : 'ModalComponent',
+                  {option: options[0]},
+                )
               }>
               <View
                 style={{
@@ -637,7 +661,10 @@ const MainScreen = ({navigation}) => {
                 alignItems: 'center',
               }}
               onPress={() =>
-                navigation.navigate('CompassOverlay', {option: options[1]})
+                navigation.navigate(
+                  checkUserPayment ? 'CompassOverlay' : 'ModalComponent',
+                  {option: options[1]},
+                )
               }>
               <View
                 style={{
@@ -722,7 +749,10 @@ const MainScreen = ({navigation}) => {
                 alignItems: 'center',
               }}
               onPress={() =>
-                navigation.navigate('CompassOverlay', {option: options[3]})
+                navigation.navigate(
+                  checkUserPayment ? 'CompassOverlay' : 'ModalComponent',
+                  {option: options[3]},
+                )
               }>
               <View
                 style={{
@@ -806,7 +836,10 @@ const MainScreen = ({navigation}) => {
                 alignItems: 'center',
               }}
               onPress={() =>
-                navigation.navigate('CompassOverlay', {option: options[4]})
+                navigation.navigate(
+                  checkUserPayment ? 'CompassOverlay' : 'ModalComponent',
+                  {option: options[4]},
+                )
               }>
               <View
                 style={{
@@ -888,7 +921,10 @@ const MainScreen = ({navigation}) => {
                 alignItems: 'center',
               }}
               onPress={() =>
-                navigation.navigate('CompassOverlay', {option: options[2]})
+                navigation.navigate(
+                  checkUserPayment ? 'CompassOverlay' : 'ModalComponent',
+                  {option: options[2]},
+                )
               }>
               <View
                 style={{
@@ -975,7 +1011,10 @@ const MainScreen = ({navigation}) => {
                 alignItems: 'center',
               }}
               onPress={() =>
-                navigation.navigate('CompassOverlay', {option: options[5]})
+                navigation.navigate(
+                  checkUserPayment ? 'CompassOverlay' : 'ModalComponent',
+                  {option: options[5]},
+                )
               }>
               <View
                 style={{

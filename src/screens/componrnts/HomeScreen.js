@@ -47,7 +47,10 @@ const HomeScreen = () => {
         <View style={styles.content}>
           <Text style={styles.textHeading}>WELCOME BACK</Text>
           <Text style={styles.textSubHeading}>
-            Let Your dreams be your compass
+            Navigate Your Dreams with SmartLuoPan
+          </Text>
+          <Text style={styles.textSubHeading}>
+            Where Ambitions Find Direction
           </Text>
           {/* Add more components here */}
         </View>
@@ -58,7 +61,7 @@ const HomeScreen = () => {
             style={{
               width: responsiveWidth(100),
               height: responsiveHeight(100),
-              flex: 0.9,
+              flex: 1,
             }}
           />
         </View>
@@ -147,13 +150,13 @@ const styles = StyleSheet.create({
     // marginBottom: responsiveHeight(1),
   },
   textHeading: {
-    fontSize: responsiveFontSize(3),
+    fontSize: responsiveFontSize(2.5),
     fontWeight: '800',
     color: '#000',
-    letterSpacing: responsiveWidth(1),
+    letterSpacing: responsiveWidth(0.8),
   },
   textSubHeading: {
-    fontSize: responsiveFontSize(2.5),
+    fontSize: responsiveFontSize(1.8),
     fontWeight: '500',
     color: '#000',
   },

@@ -28,9 +28,125 @@ import {createStackNavigator} from '@react-navigation/stack';
 import LoginProvider from './src/screens/utils/context/LoginProvider';
 import MainNavigator from './src/screens/utils/MainNavigator';
 import {useLogin} from './src/screens/utils/context/LoginProvider';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import Weather from './src/screens/componrnts/Weather';
+// import Location from './src/screens/componrnts/Location';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const Drawer = createDrawerNavigator();
+import Location from './src/screens/componrnts/LocationTrack';
+
 const Stack = createStackNavigator();
+const Tab = createMaterialBottomTabNavigator();
+
+function BottomTabNavigator() {
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      activeColor="#0a2240"
+      inactiveColor="#505050"
+      // barStyle={{backgroundColor: '#0a2240'}}
+      barStyle={{backgroundColor: 'transparent'}}>
+      <Tab.Screen
+        name="Home"
+        component={HomeStack}
+        options={{
+          tabBarLabel: 'Compass',
+          tabBarIcon: ({focused}) => (
+            <MaterialCommunityIcons
+              name={focused ? 'compass' : 'compass-outline'}
+              color={focused ? '#0a2240' : '#505050'}
+              size={26}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Weather"
+        component={Weather}
+        options={{
+          tabBarLabel: 'Weather',
+          tabBarIcon: ({focused}) => (
+            <MaterialCommunityIcons
+              name={focused ? 'weather-partly-rainy' : 'weather-partly-rainy'}
+              color={focused ? '#0a2240' : '#505050'}
+              size={26}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Location"
+        component={Location}
+        options={{
+          tabBarLabel: 'Location',
+          tabBarIcon: ({focused}) => (
+            <MaterialIcons
+              name={focused ? 'location-on' : 'location-on'}
+              color={focused ? '#0a2240' : '#505050'}
+              size={26}
+            />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
+
+function HomeStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={MainScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ModalComponent"
+        component={ModalComponent}
+        options={{headerShown: true}}
+      />
+      <Stack.Screen
+        name="CustomSideMenu"
+        component={CustomSideMenu}
+        options={{headerShown: true}}
+      />
+      <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
+      <Stack.Screen
+        name="CompassOverlay"
+        component={CompassOverlay}
+        options={{headerShown: true}}
+      />
+      <Stack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Ebook"
+        component={Ebook}
+        options={{headerShown: true}}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function AuthStack() {
+  return (
+    <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+}
 
 function App() {
   const publishableKey =
@@ -40,69 +156,6 @@ function App() {
   const [initializing, setInitializing] = useState(true);
   const [checkUserPayment, setCheckUserPayment] = useState('');
   console.log('isLoggedIn', isLoggedIn);
-  const GradientHeader1 = () => {
-    const navigation = useNavigation();
-    return (
-      <LinearGradient
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}
-        colors={['#0a2240', '#0a2240']}
-        style={{
-          padding: responsiveWidth(3),
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
-        <Icon
-          name="arrowleft"
-          size={responsiveFontSize(3)}
-          color="#fff"
-          style={{marginLeft: responsiveWidth(3)}}
-          onPress={() => navigation.navigate('Home')}
-        />
-        <Text
-          style={{
-            color: '#fff',
-            fontSize: responsiveFontSize(2.5),
-            fontWeight: '700',
-            paddingLeft: responsiveWidth(3),
-          }}>
-          Back
-        </Text>
-      </LinearGradient>
-    );
-  };
-
-  const GradientHeader3 = () => {
-    const navigation = useNavigation();
-    return (
-      <LinearGradient
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}
-        colors={['#0a2240', '#0a2240']}
-        style={{
-          padding: responsiveWidth(3),
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
-        <Icon
-          name="arrowleft"
-          size={responsiveFontSize(3)}
-          color="#fff"
-          style={{marginLeft: responsiveWidth(3)}}
-          onPress={() => navigation.navigate('Home')}
-        />
-        <Text
-          style={{
-            color: '#fff',
-            fontSize: responsiveFontSize(2.5),
-            fontWeight: '700',
-            paddingLeft: responsiveWidth(3),
-          }}>
-          Ebook
-        </Text>
-      </LinearGradient>
-    );
-  };
 
   useEffect(() => {
     // Check if a token exists in AsyncStorage
@@ -129,113 +182,286 @@ function App() {
     return null; // Render a loading screen while initializing
   }
 
+  // all stack screens here
+
+  // function HomeStack() {
+  //   return (
+  //     <Stack.Navigator
+  //       initialRouteName={
+  //         isLoggedIn
+  //           ? 'Home'
+  //           : // checkUserPayment
+  //             //   ? 'Home'
+  //             //   : 'HomeScreen'
+  //             'HomeScreen'
+  //       }
+  //       // drawerContent={props => <CustomSideMenu {...props} />}
+  //     >
+  //       <Stack.Screen
+  //         name="Home"
+  //         component={MainScreen}
+  //         options={{
+  //           title: 'Compass',
+  //           headerStyle: {
+  //             backgroundColor: '#0a2240',
+  //           },
+  //           headerTitleStyle: {
+  //             alignSelf: 'center',
+  //             fontSize: responsiveFontSize(2.5),
+  //             fontWeight: '700',
+  //           },
+  //           headerShown: false,
+  //           headerTintColor: 'white',
+  //         }}
+  //       />
+  //       <Stack.Screen
+  //         name="ModalComponent"
+  //         component={ModalComponent}
+  //         options={{
+  //           headerShown: false,
+  //         }}
+  //       />
+  //       <Stack.Screen
+  //         name="CustomSideMenu"
+  //         component={CustomSideMenu}
+  //         options={{
+  //           // header: () => <GradientHeader1 />,
+  //           headerTitleStyle: {alignSelf: 'center'},
+  //           headerTintColor: 'white',
+  //           headerShown: true,
+  //           headerStyle: {backgroundColor: '#0a2240'},
+  //         }}
+  //       />
+  //       <Stack.Screen
+  //         name="PaymentScreen"
+  //         component={PaymentScreen}
+  //         options={{
+  //           headerTitleStyle: {alignSelf: 'center'},
+  //           headerTintColor: 'white',
+  //           headerShown: true,
+  //           headerStyle: {backgroundColor: '#0a2240'},
+  //         }}
+  //       />
+  //       <Stack.Screen
+  //         name="CompassOverlay"
+  //         component={CompassOverlay}
+  //         options={{
+  //           // header: () => <GradientHeader2 />,
+  //           headerTitleStyle: {alignSelf: 'center'},
+  //           headerTintColor: 'white',
+  //           headerShown: true,
+  //           headerStyle: {backgroundColor: '#0a2240'},
+  //         }}
+  //       />
+
+  //       <Stack.Screen
+  //         name="HomeScreen"
+  //         component={HomeScreen}
+  //         options={{
+  //           headerShown: false,
+  //         }}
+  //       />
+
+  //       <Stack.Screen
+  //         name="Ebook"
+  //         component={Ebook}
+  //         options={{
+  //           // header: () => <GradientHeader3 />,
+  //           headerTitleStyle: {alignSelf: 'center'},
+  //           headerTintColor: 'white',
+  //           headerShown: true,
+  //           headerStyle: {backgroundColor: '#0a2240'},
+  //         }}
+  //       />
+
+  //       <Stack.Screen
+  //         name="Login"
+  //         component={Login}
+  //         options={{
+  //           headerShown: false,
+  //         }}
+  //       />
+  //       <Stack.Screen
+  //         name="SignUp"
+  //         component={SignUp}
+  //         options={{
+  //           headerShown: false,
+  //         }}
+  //       />
+  //     </Stack.Navigator>
+  //   );
+  // }
+
+  // return (
+  //   <NavigationContainer>
+  //     <StripeProvider publishableKey={publishableKey}>
+  //       {/* <Stack.Navigator
+  //         initialRouteName={
+  //           isLoggedIn
+  //             ? 'Home'
+  //             : // checkUserPayment
+  //               //   ? 'Home'
+  //               //   : 'HomeScreen'
+  //               'HomeScreen'
+  //         }
+  //         // drawerContent={props => <CustomSideMenu {...props} />}
+  //       >
+  //         <Stack.Screen
+  //           name="Home"
+  //           component={MainScreen}
+  //           options={{
+  //             title: 'Compass',
+  //             headerStyle: {
+  //               backgroundColor: '#0a2240',
+  //             },
+  //             headerTitleStyle: {
+  //               alignSelf: 'center',
+  //               fontSize: responsiveFontSize(2.5),
+  //               fontWeight: '700',
+  //             },
+  //             headerShown: false,
+  //             headerTintColor: 'white',
+  //           }}
+  //         />
+  //         <Stack.Screen
+  //           name="ModalComponent"
+  //           component={ModalComponent}
+  //           options={{
+  //             headerShown: false,
+  //           }}
+  //         />
+  //         <Stack.Screen
+  //           name="CustomSideMenu"
+  //           component={CustomSideMenu}
+  //           options={{
+  //             // header: () => <GradientHeader1 />,
+  //             headerTitleStyle: {alignSelf: 'center'},
+  //             headerTintColor: 'white',
+  //             headerShown: true,
+  //             headerStyle: {backgroundColor: '#0a2240'},
+  //           }}
+  //         />
+  //         <Stack.Screen
+  //           name="PaymentScreen"
+  //           component={PaymentScreen}
+  //           options={{
+  //             headerTitleStyle: {alignSelf: 'center'},
+  //             headerTintColor: 'white',
+  //             headerShown: true,
+  //             headerStyle: {backgroundColor: '#0a2240'},
+  //           }}
+  //         />
+  //         <Stack.Screen
+  //           name="CompassOverlay"
+  //           component={CompassOverlay}
+  //           options={{
+  //             // header: () => <GradientHeader2 />,
+  //             headerTitleStyle: {alignSelf: 'center'},
+  //             headerTintColor: 'white',
+  //             headerShown: true,
+  //             headerStyle: {backgroundColor: '#0a2240'},
+  //           }}
+  //         />
+
+  //         <Stack.Screen
+  //           name="HomeScreen"
+  //           component={HomeScreen}
+  //           options={{
+  //             headerShown: false,
+  //           }}
+  //         />
+
+  //         <Stack.Screen
+  //           name="Ebook"
+  //           component={Ebook}
+  //           options={{
+  //             // header: () => <GradientHeader3 />,
+  //             headerTitleStyle: {alignSelf: 'center'},
+  //             headerTintColor: 'white',
+  //             headerShown: true,
+  //             headerStyle: {backgroundColor: '#0a2240'},
+  //           }}
+  //         />
+
+  //         <Stack.Screen
+  //           name="Login"
+  //           component={Login}
+  //           options={{
+  //             headerShown: false,
+  //           }}
+  //         />
+  //         <Stack.Screen
+  //           name="SignUp"
+  //           component={SignUp}
+  //           options={{
+  //             headerShown: false,
+  //           }}
+  //         />
+  //       </Stack.Navigator> */}
+
+  //       {/* Tab Navigator */}
+
+  //       <Tab.Navigator
+  //         initialRouteName="Home"
+  //         activeColor="#f0edf6"
+  //         // activeColor="#000"
+  //         inactiveColor="#505050"
+  //         barStyle={{backgroundColor: '#0a2240'}}>
+  //         <Tab.Screen
+  //           name="Home"
+  //           component={HomeStack}
+  //           options={{
+  //             tabBarLabel: 'Compass',
+  //             tabBarIcon: ({focused}) => (
+  //               <MaterialCommunityIcons
+  //                 name={focused ? 'compass' : 'compass-outline'}
+  //                 color={focused ? '#0a2240' : '#505050'}
+  //                 size={26}
+  //               />
+  //             ),
+  //           }}
+  //         />
+  //         <Tab.Screen
+  //           name="Weather"
+  //           component={Weather}
+  //           options={{
+  //             tabBarLabel: 'Weather',
+  //             tabBarIcon: ({focused}) => (
+  //               <MaterialCommunityIcons
+  //                 name={
+  //                   focused ? 'weather-partly-rainy' : 'weather-partly-rainy'
+  //                 }
+  //                 color={focused ? '#0a2240' : '#505050'}
+  //                 size={26}
+  //               />
+  //             ),
+  //           }}
+  //         />
+  //         <Tab.Screen
+  //           name="Location"
+  //           component={Location}
+  //           options={{
+  //             tabBarLabel: 'Location',
+  //             tabBarIcon: ({focused}) => (
+  //               <MaterialIcons
+  //                 name={focused ? 'location-on' : 'location-on'}
+  //                 color={focused ? '#0a2240' : '#505050'}
+  //                 size={26}
+  //               />
+  //             ),
+  //           }}
+  //         />
+  //       </Tab.Navigator>
+
+  //       {/* {/ <MainNavigator /> /} */}
+  //     </StripeProvider>
+  //   </NavigationContainer>
+  // );
+
   return (
     <NavigationContainer>
       <StripeProvider publishableKey={publishableKey}>
-        <Stack.Navigator
-          initialRouteName={
-            isLoggedIn
-              ? checkUserPayment
-                ? 'Home'
-                : 'HomeScreen'
-              : 'HomeScreen'
-          }
-          // drawerContent={props => <CustomSideMenu {...props} />}
-        >
-          <Stack.Screen
-            name="Home"
-            component={MainScreen}
-            options={{
-              title: 'Compass',
-              headerStyle: {
-                backgroundColor: '#0a2240',
-              },
-              headerTitleStyle: {
-                alignSelf: 'center',
-                fontSize: responsiveFontSize(2.5),
-                fontWeight: '700',
-              },
-              headerShown: false,
-              headerTintColor: 'white',
-            }}
-          />
-          <Stack.Screen
-            name="ModalComponent"
-            component={ModalComponent}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="CustomSideMenu"
-            component={CustomSideMenu}
-            options={{
-              // header: () => <GradientHeader1 />,
-              headerTitleStyle: {alignSelf: 'center'},
-              headerTintColor: 'white',
-              headerShown: true,
-              headerStyle: {backgroundColor: '#0a2240'},
-            }}
-          />
-          <Stack.Screen
-            name="PaymentScreen"
-            component={PaymentScreen}
-            options={{
-              headerTitleStyle: {alignSelf: 'center'},
-              headerTintColor: 'white',
-              headerShown: true,
-              headerStyle: {backgroundColor: '#0a2240'},
-            }}
-          />
-          <Stack.Screen
-            name="CompassOverlay"
-            component={CompassOverlay}
-            options={{
-              // header: () => <GradientHeader2 />,
-              headerTitleStyle: {alignSelf: 'center'},
-              headerTintColor: 'white',
-              headerShown: true,
-              headerStyle: {backgroundColor: '#0a2240'},
-            }}
-          />
-
-          <Stack.Screen
-            name="HomeScreen"
-            component={HomeScreen}
-            options={{
-              headerShown: false,
-            }}
-          />
-
-          <Stack.Screen
-            name="Ebook"
-            component={Ebook}
-            options={{
-              // header: () => <GradientHeader3 />,
-              headerTitleStyle: {alignSelf: 'center'},
-              headerTintColor: 'white',
-              headerShown: true,
-              headerStyle: {backgroundColor: '#0a2240'},
-            }}
-          />
-
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="SignUp"
-            component={SignUp}
-            options={{
-              headerShown: false,
-            }}
-          />
-        </Stack.Navigator>
-
-        {/* {/ <MainNavigator /> /} */}
+        {isLoggedIn ? <BottomTabNavigator /> : <AuthStack />}
       </StripeProvider>
     </NavigationContainer>
   );
