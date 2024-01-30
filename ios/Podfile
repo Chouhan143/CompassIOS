@@ -109,4 +109,5 @@ end
 ])
  
 # permissions_path = '../node_modules/react-native-permissions/ios'
-# pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
+#pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
+pod 'react-native-video/VideoCaching', :path => '../node_modules/react-native-video/react-native-video.podspec'

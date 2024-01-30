@@ -18,14 +18,15 @@ import {
 } from 'react-native-responsive-dimensions';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Icon2 from 'react-native-vector-icons/Entypo';
-import {useNavigation} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
+// import {useNavigation} from '@react-navigation/native';
 // import Icon3 from 'react-native-vector-icons/FontAwesome6Brands';
 import Icon4 from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useLogin} from '../utils/context/LoginProvider';
 import axios from 'axios';
 
-const CustomSideMenu = () => {
+const CustomSideMenu = ({navigation}) => {
   const {setIsLoggedIn} = useLogin();
   const [selectedId, setSelectedId] = useState(null);
   const [showAmount, setShowAmount] = useState('');
@@ -41,7 +42,7 @@ const CustomSideMenu = () => {
   const Subscroptions = <Icon4 name="subscriptions" size={20} color="#000" />;
   const Share = <Icon name="sharealt" size={20} color="#000" />;
   const Logout = <Icon4 name="logout" size={20} color="#000" />;
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   const listArray = [
     {icon: Home, title: 'Home', screenName: 'Home'},
 
@@ -53,6 +54,14 @@ const CustomSideMenu = () => {
     // },
     // {icon: myIcon, title: 'Other'},
   ];
+
+  const showToast = message => {
+    Toast.show({
+      type: 'success',
+      text1: message,
+      visibilityTime: 4000, // Set visibility time in milliseconds (3 seconds in this case)
+    });
+  };
 
   const handleLogout = async () => {
     // Show a confirmation dialog before logging out
@@ -67,7 +76,6 @@ const CustomSideMenu = () => {
         {
           text: 'Logout',
           onPress: async () => {
-            // Clear the token from AsyncStorage
             await AsyncStorage.removeItem('access_token');
             setIsLoggedIn(null);
             navigation.navigate('HomeScreen'); // Navigate to your logout screen
@@ -77,7 +85,8 @@ const CustomSideMenu = () => {
       {cancelable: false}, // Prevent dismissing the dialog by tapping outside of it
     );
   };
-  const DeletUserAcount = async () => {
+
+  const accountDeletApi = async () => {
     try {
       const token = await AsyncStorage.getItem('access_token');
       const headers = {
@@ -88,60 +97,37 @@ const CustomSideMenu = () => {
         'https://smartluopan.com/api/delete-account',
         {headers},
       );
-
-      Alert.alert(
-        'Delete Account Confirmation',
-        'Are you sure you want to Delete Your Account?',
-        [
-          {
-            text: 'Cancel',
-            style: 'cancel',
-          },
-          {
-            text: 'Delete Account',
-            onPress: async () => {
-              // Clear the token from AsyncStorage
-              if (userDeleteRes.config.data == null) {
-                navigation.navigate('Login');
-              }
-            },
-          },
-        ],
-        {cancelable: false}, // Prevent dismissing the dialog by tapping outside of it
-      );
-
-      console.log('deleted', userDeleteRes.data.message);
+      console.log(userDeleteRes.data);
+      return;
     } catch (error) {
-      console.log('error', error);
+      console.log(error);
     }
   };
 
+  const deleteAcountConformation = () =>
+    Alert.alert(
+      'Delete Account Confirmation',
+      'Are you sure you want to Delete Your Account?',
+      [
+        {
+          text: 'delete',
+          onPress: async () => {
+            await accountDeletApi();
+            showToast('User account deleted successfully');
+            await AsyncStorage.removeItem('access_token');
+            setIsLoggedIn(null);
+            navigation.navigate('HomeScreen');
+          },
+        },
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+    );
+
   const Item = ({icon, title, onPress, backgroundColor, color, screenName}) => {
-    const navigation = useNavigation();
-
-    // const handleLogout = () => {
-    //   // Show a confirmation dialog before logging out
-    //   Alert.alert(
-    //     'Logout Confirmation',
-    //     'Are you sure you want to logout?',
-    //     [
-    //       {
-    //         text: 'Cancel',
-    //         style: 'cancel',
-    //       },
-    //       {
-    //         text: 'Logout',
-    //         onPress: async () => {
-    //           // Clear user data and navigate to the logout screen
-    //           await AsyncStorage.clear(); // Clear all data stored in AsyncStorage
-    //           navigation.navigate('LogoutScreen'); // Navigate to your logout screen
-    //         },
-    //       },
-    //     ],
-    //     {cancelable: false}, // Prevent dismissing the dialog by tapping outside of it
-    //   );
-    // };
-
     useEffect(() => {
       async function fetchUserName() {
         const storedUserName = await AsyncStorage.getItem('Name');
@@ -152,6 +138,7 @@ const CustomSideMenu = () => {
       fetchUserName();
     }, []);
 
+    // subscription get value
     const SubScriptionGet = async () => {
       try {
         const token = await AsyncStorage.getItem('access_token');
@@ -173,7 +160,6 @@ const CustomSideMenu = () => {
         console.log('error', error);
       }
     };
-
     useEffect(() => {
       SubScriptionGet();
     }, []);
@@ -353,7 +339,7 @@ const CustomSideMenu = () => {
 
               <TouchableOpacity
                 style={[styles.succeedBackground, {backgroundColor: 'red'}]}
-                onPress={DeletUserAcount}>
+                onPress={deleteAcountConformation}>
                 <Text style={[styles.subscription, {color: '#fff'}]}>
                   Delete Account
                 </Text>

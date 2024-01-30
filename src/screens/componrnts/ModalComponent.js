@@ -27,7 +27,8 @@ const ModalComponent = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(true);
-  const [amount, setAmount] = useState(10);
+  // const [amount, setAmount] = useState(10);
+  const [subAmount, setSubAmount] = useState(0);
   const [currency, setCurrency] = useState('usd');
   // const {initPaymentSheet, presentPaymentSheet, confirmPaymentSheetPayment} =
   //   useStripe();
@@ -270,6 +271,20 @@ const ModalComponent = () => {
   //   return () => backHandler.remove();
   // }, [navigation];
 
+  useEffect(() => {
+    const fetchAmount = async () => {
+      try {
+        const storedAmount = await AsyncStorage.getItem('amount');
+        const subscriptionAmount = parseFloat(storedAmount) || 0;
+        console.log('amount', subscriptionAmount);
+        setSubAmount(subscriptionAmount);
+      } catch (error) {
+        console.error('Error fetching amount:', error);
+      }
+    };
+    fetchAmount();
+  }, []);
+
   return (
     <View style={styles.centeredView}>
       <Image
@@ -284,7 +299,6 @@ const ModalComponent = () => {
           colors={['#A69EEC', '#EBBFD8', '#A69EEC']}
           style={styles.modalView}>
           <View style={{marginTop: responsiveHeight(6)}}>
-            <Text style={styles.modalText}>Your First 3 months free</Text>
             {/* <Text
               style={[styles.modalSubText, {marginTop: responsiveHeight(0.7)}]}>
               No commitment. Cancel anytime{' '}
@@ -313,15 +327,15 @@ const ModalComponent = () => {
               <Text style={styles.modalSubText}>Subscription</Text>
             </View>
 
-            <View
+            {/* <View
               style={{
                 flex: 1,
                 justifyContent: 'center',
                 paddingHorizontal: responsiveWidth(3),
                 borderRightWidth: 1,
                 borderRightColor: '#A69EEC',
-              }}>
-              <Text
+              }}> */}
+            {/* <Text
                 style={[
                   styles.modalText,
                   {
@@ -332,11 +346,23 @@ const ModalComponent = () => {
                   },
                 ]}>
                 $98
-              </Text>
-              <Text style={styles.modalText}>$68</Text>
-            </View>
-
+              </Text> */}
             <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                paddingHorizontal: responsiveWidth(3),
+                borderRightWidth: 1,
+                borderRightColor: '#A69EEC',
+              }}>
+              <Text
+                style={[styles.modalText, {fontSize: responsiveFontSize(2.5)}]}>
+                ${subAmount}
+              </Text>
+            </View>
+            {/* </View> */}
+
+            {/* <View
               style={{
                 flex: 1,
                 justifyContent: 'center',
@@ -361,7 +387,7 @@ const ModalComponent = () => {
                 }}>
                 OFF
               </Text>
-            </View>
+            </View> */}
           </View>
 
           <Pressable

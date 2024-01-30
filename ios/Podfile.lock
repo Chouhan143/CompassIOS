@@ -393,6 +393,11 @@ PODS:
     - React-Core
   - react-native-safe-area-context (4.7.4):
     - React-Core
+  - react-native-video (5.2.1):
+    - React-Core
+    - react-native-video/Video (= 5.2.1)
+  - react-native-video/Video (5.2.1):
+    - React-Core
   - React-NativeModulesApple (0.72.6):
     - hermes-engine
     - React-callinvoker
@@ -627,6 +632,7 @@ DEPENDENCIES:
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-pdf (from `../node_modules/react-native-pdf`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-video (from `../node_modules/react-native-video`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -738,6 +744,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-pdf"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-video:
+    :path: "../node_modules/react-native-video"
   React-NativeModulesApple:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios"
   React-perflogger:
@@ -834,6 +842,7 @@ SPEC CHECKSUMS:
   react-native-netinfo: 3aa5637c18834966e0c932de8ae1ae56fea20a97
   react-native-pdf: 7c0e91ada997bac8bac3bb5bea5b6b81f5a3caae
   react-native-safe-area-context: 2cd91d532de12acdb0a9cbc8d43ac72a8e4c897c
+  react-native-video: c26780b224543c62d5e1b2a7244a5cd1b50e8253
   React-NativeModulesApple: 02e35e9a51e10c6422f04f5e4076a7c02243fff2
   React-perflogger: e3596db7e753f51766bceadc061936ef1472edc3
   React-RCTActionSheet: 17ab132c748b4471012abbcdcf5befe860660485

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -20,7 +20,8 @@ import {
 } from 'react-native-responsive-dimensions';
 import axios from 'axios';
 const PaymentScreen = () => {
-  const [amount, setAmount] = useState(68);
+  const [amount, setAmount] = useState(0);
+  // const [subAmount, setSubAmount] = useState(0);
   const {confirmPayment, loading} = useConfirmPayment();
   const [cardInfo, setCardInfo] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -53,6 +54,19 @@ const PaymentScreen = () => {
   //   console.log('dsdfdsf', rest);
   // };
 
+  useEffect(() => {
+    const fetchAmount = async () => {
+      try {
+        const storedAmount = await AsyncStorage.getItem('amount');
+        const subscriptionAmount = parseFloat(storedAmount) || 0;
+        setAmount(subscriptionAmount);
+      } catch (error) {
+        console.error('Error fetching amount:', error);
+      }
+    };
+    fetchAmount();
+  }, []);
+
   const ondone = async () => {
     setIsLoading(true);
     try {
@@ -75,7 +89,7 @@ const PaymentScreen = () => {
         },
       );
 
-      console.log('dsdfdsf', confirmPaymentIntent);
+      // console.log('dsdfdsf', confirmPaymentIntent);
 
       if (confirmPaymentIntent?.paymentIntent?.status === 'Succeeded') {
         // Payment succeeded, proceed with further actions
@@ -111,7 +125,7 @@ const PaymentScreen = () => {
           'Payment not successful',
           confirmPaymentIntent?.paymentIntent?.status,
         );
-        setErrorPayment('Invalid User Card Data');
+        setErrorPayment('Invalid User Card Information');
         setIsLoading(false);
       }
     } catch (error) {

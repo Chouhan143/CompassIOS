@@ -399,7 +399,9 @@ const CompassOverlay = ({route}) => {
           </>
         )}
 
-        {option.compasId === 1 || option.compasId2 === 3 ? (
+        {option.compasId === 1 ||
+        option.compasId2 === 3 ||
+        option.compasId3 === 4 ? (
           <TouchableOpacity
             onPress={() => {
               getLocation(); // Call getLocation when the button is pressed

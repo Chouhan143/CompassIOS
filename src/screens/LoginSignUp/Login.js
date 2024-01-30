@@ -30,6 +30,7 @@ const Login = () => {
   //Login Api here
   const {setIsLoggedIn} = useLogin();
   // const {transactionFlag, setTransactionFlag} = useTransactionFlag();
+
   const LoginApi = async () => {
     setLoading(true);
     try {
@@ -39,19 +40,22 @@ const Login = () => {
         password: password,
       };
       const response = await axios.post(Url, Payload);
-      if (response.status === 200) {
+
+      if (response && response.status === 200 && response.data) {
         const accessToken = response.data.access_token;
         const username = response.data.Name;
         const lastTransaction = response.data.last_transaction_status;
+        const amount = response.data.amount;
+        console.log(amount);
         await AsyncStorage.setItem('access_token', accessToken);
         await AsyncStorage.setItem('Name', username);
+        await AsyncStorage.setItem('amount', amount.toString());
         setIsLoggedIn(accessToken);
 
         if (lastTransaction === 'No Transaction Found') {
           AsyncStorage.setItem('paymentStatus', JSON.stringify(false));
           navigation.navigate('ModalComponent');
         } else if (lastTransaction === 'Transaction is still valid') {
-          // setTransactionFlag(true);
           AsyncStorage.setItem('paymentStatus', JSON.stringify(true));
           setTimeout(() => {
             setLoading(false);
@@ -63,31 +67,38 @@ const Login = () => {
         }
       }
     } catch (error) {
-      // console.log('error', error.response.data.errors);
-      if (error.response.data.message === 'All Fields required!') {
-        if (
-          error.response.data.errors.password[0] ===
-          'The password must be at least 8 characters.'
-        ) {
-          setEmailErr(error.response.data.errors.password[0]);
-          setTimeout(() => {
-            setEmailErr(null);
-            setLoading(false);
-          }, 2000);
-        } else {
+      if (error.response && error.response.data) {
+        // Check if error.response.data exists
+        if (error.response.data.message === 'All Fields required!') {
+          if (
+            error.response.data.errors.password &&
+            error.response.data.errors.password[0] ===
+              'The password must be at least 8 characters.'
+          ) {
+            setEmailErr(error.response.data.errors.password[0]);
+            setTimeout(() => {
+              setEmailErr(null);
+              setLoading(false);
+            }, 2000);
+          } else {
+            setEmailErr(error.response.data.message);
+            setTimeout(() => {
+              setEmailErr(null);
+              setLoading(false);
+            }, 2000);
+          }
+        }
+        if (error.response.data.message === 'Invalid Credentails') {
           setEmailErr(error.response.data.message);
           setTimeout(() => {
             setEmailErr(null);
             setLoading(false);
           }, 2000);
         }
-      }
-      if (error.response.data.message === 'Invalid Credentails') {
-        setEmailErr(error.response.data.message);
-        setTimeout(() => {
-          setEmailErr(null);
-          setLoading(false);
-        }, 2000);
+      } else {
+        // Handle other types of errors here
+        console.error('Unexpected error:', error);
+        setLoading(false);
       }
     }
   };

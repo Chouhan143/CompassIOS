@@ -33,9 +33,9 @@ import Weather from './src/screens/componrnts/Weather';
 // import Location from './src/screens/componrnts/Location';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import MonthlyFlyingStars from './src/screens/componrnts/MonthlyFlyingStars';
 import Location from './src/screens/componrnts/LocationTrack';
-
+import Toast from 'react-native-toast-message';
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
@@ -122,6 +122,12 @@ function HomeStack() {
         component={HomeScreen}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="MonthlyFlyingStars"
+        component={MonthlyFlyingStars}
+        options={{headerShown: false}}
+      />
+
       <Stack.Screen
         name="Ebook"
         component={Ebook}
@@ -462,6 +468,7 @@ function App() {
     <NavigationContainer>
       <StripeProvider publishableKey={publishableKey}>
         {isLoggedIn ? <BottomTabNavigator /> : <AuthStack />}
+        <Toast />
       </StripeProvider>
     </NavigationContainer>
   );
