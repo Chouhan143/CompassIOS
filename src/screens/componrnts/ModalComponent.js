@@ -308,7 +308,8 @@ const ModalComponent = () => {
           <View
             style={{
               width: responsiveWidth(70),
-              height: responsiveHeight(7),
+
+              paddingVertical: responsiveHeight(1),
               backgroundColor: 'rgba(255,255,255,0.5)',
               borderRadius: responsiveWidth(2),
               justifyContent: 'space-around',
@@ -393,10 +394,11 @@ const ModalComponent = () => {
           <Pressable
             style={{
               width: responsiveWidth(60),
-              height: responsiveHeight(6),
+              // height: responsiveHeight(6),
+              paddingVertical: responsiveHeight(1.8),
               backgroundColor: '#A69EEC',
               borderRadius: responsiveWidth(10),
-              marginTop: responsiveHeight(7),
+              marginTop: responsiveHeight(5),
               justifyContent: 'center',
               alignItems: 'center',
               shadowColor: '#000',

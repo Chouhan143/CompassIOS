@@ -1,14 +1,12 @@
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   responsiveWidth,
   responsiveHeight,
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
-import Modal from 'react-native-modal';
-import Video from 'react-native-video';
+
 import axios from 'axios';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   View,
   Image,
@@ -16,9 +14,6 @@ import {
   TouchableOpacity,
   Text,
   ActivityIndicator,
-  StyleSheet,
-  Button,
-  StatusBar,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -30,25 +25,7 @@ const SignUp = () => {
   const [success, setSuccess] = useState(null);
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [isVideoPlaying, setVideoPlaying] = useState(false);
-  const [isVideoModalVisible, setVideoModalVisible] = useState(false);
-  // const videoRef = useRef(null);
   const navigation = useNavigation();
-  const [videoRef, setVideoRef] = useState(null);
-  const [isModalVisible, setModalVisible] = useState(false);
-  // const handleWatchDemoVideo = () => {
-  //   setVideoPlaying(!isVideoPlaying);
-  // };
-
-  const handleWatchDemoVideo = () => {
-    setModalVisible(true);
-    setVideoPlaying(true);
-  };
-
-  const handleCloseVideo = () => {
-    setModalVisible(false);
-  };
-
   const SignUpApi = async () => {
     setLoading(true);
     try {
@@ -123,7 +100,7 @@ const SignUp = () => {
           }}
         />
 
-        <View style={{flex: 0.8, marginTop: responsiveHeight(12)}}>
+        <View style={{flex: 0.8, marginTop: responsiveHeight(8)}}>
           <TextInput
             placeholder="Name"
             placeholderTextColor="gray"
@@ -221,7 +198,7 @@ const SignUp = () => {
               shadowColor: '#A69EEC',
               backgroundColor: '#fff',
               elevation: 5,
-              marginTop: responsiveHeight(4),
+              marginTop: responsiveHeight(2),
               justifyContent: 'center',
               alignItems: 'center',
             }}
@@ -269,88 +246,9 @@ const SignUp = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={{
-            marginTop: responsiveHeight(5),
-            borderWidth: responsiveWidth(0.3),
-            borderColor: '#fff',
-            borderRadius: responsiveWidth(0.3),
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: responsiveWidth(42),
-            height: responsiveHeight(4),
-            paddingHorizontal: responsiveWidth(2),
-          }}
-          onPress={handleWatchDemoVideo}>
-          <Text style={{color: '#fff'}}>Watch Demo Video</Text>
-          <AntDesign name={'arrowright'} color={'#fff'} />
-        </TouchableOpacity>
-      </View>
-
-      {/* {isVideoPlaying && (
-        <Video
-          controls={true}
-          source={require('../assets/DemoVideo/Demo.mp4')} // Can be a URL or a local file.
-          ref={videoRef}
-          onBuffer={this.onBuffer} // Callback when remote video is buffering
-          onError={this.videoError} // Callback when video cannot be loaded
-          style={styles.backgroundVideo}
-          // resizeMode={'contain'}
-        />
-      )} */}
-
-      <View style={{flex: 1}}>
-        <Modal isVisible={isModalVisible}>
-          <View style={{flex: 1}}>
-            <Video
-              controls={true}
-              source={require('../assets/DemoVideo/Demo.mp4')} // Can be a URL or a local file.
-              ref={videoRef}
-              onBuffer={this.onBuffer} // Callback when remote video is buffering
-              onError={this.videoError} // Callback when video cannot be loaded
-              style={styles.backgroundVideo}
-              resizeMode={'contain'}
-            />
-            {/* <Button
-              style={styles.closeButton}
-              title="Hide modal"
-              onPress={handleCloseVideo}
-            /> */}
-
-            <TouchableOpacity
-              style={{flex: 1, alignSelf: 'flex-end'}}
-              onPress={handleCloseVideo}>
-              <AntDesign
-                name={'closecircle'}
-                color={'#fff'}
-                size={responsiveFontSize(3)}
-              />
-            </TouchableOpacity>
-          </View>
-        </Modal>
       </View>
     </LinearGradient>
   );
 };
 
 export default SignUp;
-
-var styles = StyleSheet.create({
-  backgroundVideo: {
-    position: 'absolute',
-    width: '100%',
-    height: responsiveHeight(80),
-    top: 40,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  closeButton: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-  },
-});

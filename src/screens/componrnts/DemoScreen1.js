@@ -10,6 +10,7 @@ import {
   Alert,
   SafeAreaView,
   StatusBar,
+  Modal,
 } from 'react-native';
 import {
   responsiveFontSize,
@@ -17,24 +18,19 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import Font5 from 'react-native-vector-icons/FontAwesome5';
-import Icon4 from 'react-native-vector-icons/MaterialIcons';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import LinearGradient from 'react-native-linear-gradient';
-import SubscriptionModal from './SubscriptionModal';
-import CustomSideMenu from './CustomSideMenu';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useLogin, useTransactionFlag} from '../utils/context/LoginProvider';
+
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {ScrollView} from 'react-native-gesture-handler';
-
-const MainScreen = ({navigation}) => {
+import CompassModal from './CompassModal';
+const DemoScreen1 = ({navigation}) => {
   const [userName, setUserName] = useState('');
-  const {setIsLoggedIn} = useLogin();
-  // const {transactionFlag} = useTransactionFlag();
-  const [checkUserPayment, setCheckUserPayment] = useState('');
-  const [initializing, setInitializing] = useState(true);
-  const [paymentStatusChanged, setPaymentStatusChanged] = useState(false);
 
-  const [signUpFlag, setSignUpFlag] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleCompassClick = () => {
+    // Set modalVisible to true and pass the selected option to the modal
+    setModalVisible(true);
+  };
 
   useEffect(() => {
     const backAction = () => {
@@ -50,66 +46,9 @@ const MainScreen = ({navigation}) => {
     return () => backHandler.remove(); // Clean up the event listener on unmount
   }, []);
 
-  // console.log()
-
-  // useEffect(() => {
-  //   // Check if a token exists in AsyncStorage
-  //   const checkToken = async () => {
-  //     try {
-  //       const token = await AsyncStorage.getItem('access_token');
-  //       const paymentStatus = await AsyncStorage.getItem('paymentStatus');
-  //       setCheckUserPayment(JSON.parse(paymentStatus));
-
-  //       if (token) {
-  //         setIsLoggedIn(token);
-  //       }
-  //       setInitializing(false);
-  //     } catch (error) {
-  //       // Handle AsyncStorage read error
-  //       setInitializing(false);
-  //     }
-  //   };
-  //   checkToken();
-  // }, [setIsLoggedIn]);
-
-  useEffect(() => {
-    const checkToken = async () => {
-      try {
-        const token = await AsyncStorage.getItem('access_token');
-        const paymentStatus = await AsyncStorage.getItem('paymentStatus');
-        console.log('paymentStatus: ', paymentStatus);
-        setCheckUserPayment(JSON.parse(paymentStatus));
-
-        if (token) {
-          setIsLoggedIn(token);
-        }
-
-        if (paymentStatus === true) {
-          setSignUpFlag(true);
-        }
-
-        // Check if paymentStatus has changed
-        const storedPaymentStatus = JSON.parse(paymentStatus);
-        if (storedPaymentStatus !== checkUserPayment) {
-          setCheckUserPayment(storedPaymentStatus);
-          setPaymentStatusChanged(true);
-        }
-
-        setInitializing(false);
-      } catch (error) {
-        setInitializing(false);
-      }
-    };
-
-    checkToken();
-  }, [setIsLoggedIn, checkUserPayment, paymentStatusChanged]);
-
-  useEffect(() => {
-    // Reset paymentStatusChanged after re-render
-    if (paymentStatusChanged) {
-      setPaymentStatusChanged(false);
-    }
-  }, [paymentStatusChanged]);
+  const ExitDemo = () => {
+    navigation.navigate('Login');
+  };
 
   const options = [
     {
@@ -148,43 +87,6 @@ const MainScreen = ({navigation}) => {
     },
   ];
 
-  const handleLogout = async () => {
-    // Show a confirmation dialog before logging out
-    Alert.alert(
-      'Logout Confirmation',
-      'Are you sure you want to logout?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Logout',
-          onPress: async () => {
-            // Clear the token from AsyncStorage
-            await AsyncStorage.removeItem('access_token');
-            setIsLoggedIn(null);
-            // navigation.navigate('HomeScreen'); // Navigate to your logout screen
-            navigation.navigate('Login'); // Navigate to your logout screen
-          },
-        },
-      ],
-      {cancelable: false}, // Prevent dismissing the dialog by tapping outside of it
-    );
-  };
-
-  useEffect(() => {
-    async function fetchUserName() {
-      const storedUserName = await AsyncStorage.getItem('Name');
-      if (storedUserName) {
-        setUserName(storedUserName);
-      } else {
-        setUserName('DemoUser');
-      }
-    }
-    fetchUserName();
-  }, [setUserName]);
-
   return (
     <SafeAreaView
       style={{
@@ -200,7 +102,8 @@ const MainScreen = ({navigation}) => {
           style={{flex: 1, justifyContent: 'center', alignItems: 'flex-end'}}>
           <TouchableOpacity
             style={styles.name_sec_user}
-            onPress={() => navigation.navigate('CustomSideMenu')}>
+            // onPress={() => navigation.navigate('CustomSideMenu')}
+          >
             <Font5
               name="user-alt"
               size={responsiveWidth(5)}
@@ -217,7 +120,7 @@ const MainScreen = ({navigation}) => {
               justifyContent: 'flex-start',
               alignItems: 'center',
             }}>
-            {/* <Text
+            <Text
               style={{
                 fontSize: responsiveFontSize(2),
                 color: '#fff',
@@ -225,12 +128,12 @@ const MainScreen = ({navigation}) => {
                 paddingLeft: responsiveWidth(2.5),
               }}>
               Hii,
-            </Text> */}
+            </Text>
             <Text style={styles.name_txt}>{userName} </Text>
           </View>
         </View>
         <View style={styles.name_sec_icon}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => navigation.navigate('Ebook')}
             style={{paddingRight: responsiveWidth(3)}}>
             <SimpleLineIcons
@@ -241,6 +144,37 @@ const MainScreen = ({navigation}) => {
           </TouchableOpacity>
           <TouchableOpacity onPress={handleLogout}>
             <Icon4 name="logout" size={responsiveWidth(5)} color="#fff" />
+          </TouchableOpacity> */}
+          <TouchableOpacity
+            style={{
+              marginTop: responsiveHeight(2),
+              backgroundColor: '#FFD700',
+              borderRadius: responsiveWidth(0.3),
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              alignSelf: 'flex-end',
+              width: responsiveWidth(35),
+              height: responsiveHeight(6),
+              paddingHorizontal: responsiveWidth(2),
+              marginRight: responsiveWidth(5),
+              borderRadius: responsiveWidth(1),
+            }}
+            onPress={ExitDemo}>
+            <MaterialIcons
+              name={'logout'}
+              color={'#000'}
+              size={responsiveFontSize(3)}
+            />
+
+            <Text
+              style={{
+                color: '#000',
+                fontSize: responsiveFontSize(2.4),
+                fontWeight: '600',
+              }}>
+              Exit Demo
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -279,12 +213,7 @@ const MainScreen = ({navigation}) => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              onPress={() =>
-                navigation.navigate(
-                  checkUserPayment ? 'CompassOverlay' : 'ModalComponent',
-                  {option: options[0]},
-                )
-              }>
+              onPress={handleCompassClick}>
               <View
                 style={{
                   elevation: 5,
@@ -365,12 +294,7 @@ const MainScreen = ({navigation}) => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              onPress={() =>
-                navigation.navigate(
-                  checkUserPayment ? 'CompassOverlay' : 'ModalComponent',
-                  {option: options[1]},
-                )
-              }>
+              onPress={handleCompassClick}>
               <View
                 style={{
                   elevation: 5,
@@ -453,12 +377,7 @@ const MainScreen = ({navigation}) => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              onPress={() =>
-                navigation.navigate(
-                  checkUserPayment ? 'CompassOverlay' : 'ModalComponent',
-                  {option: options[3]},
-                )
-              }>
+              onPress={handleCompassClick}>
               <View
                 style={{
                   elevation: 5,
@@ -540,12 +459,7 @@ const MainScreen = ({navigation}) => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              onPress={() =>
-                navigation.navigate(
-                  checkUserPayment ? 'CompassOverlay' : 'ModalComponent',
-                  {option: options[4]},
-                )
-              }>
+              onPress={handleCompassClick}>
               <View
                 style={{
                   elevation: 5,
@@ -625,12 +539,7 @@ const MainScreen = ({navigation}) => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              onPress={() =>
-                navigation.navigate(
-                  checkUserPayment ? 'CompassOverlay' : 'ModalComponent',
-                  {option: options[2]},
-                )
-              }>
+              onPress={handleCompassClick}>
               <View
                 style={{
                   elevation: 5,
@@ -715,12 +624,7 @@ const MainScreen = ({navigation}) => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              onPress={() =>
-                navigation.navigate(
-                  checkUserPayment ? 'MonthlyFlyingStars' : 'ModalComponent',
-                  {option: options[5]},
-                )
-              }>
+              onPress={handleCompassClick}>
               <View
                 style={{
                   elevation: 5,
@@ -784,12 +688,22 @@ const MainScreen = ({navigation}) => {
             </View>
           </View>
         </View>
+
+        {/* Modal component */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}>
+          {/* Create a separate component for modal content */}
+          <CompassModal closeModal={() => setModalVisible(false)} />
+        </Modal>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default MainScreen;
+export default DemoScreen1;
 
 const styles = StyleSheet.create({
   name_sec: {
@@ -814,9 +728,5 @@ const styles = StyleSheet.create({
   },
   name_sec_icon: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    paddingRight: responsiveWidth(2),
   },
 });

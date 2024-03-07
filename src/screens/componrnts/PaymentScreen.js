@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import {TextInput} from 'react-native-paper';
 import {useStripe, useConfirmPayment} from '@stripe/stripe-react-native';
@@ -17,6 +18,7 @@ import SuccessModal from './SuccessModal';
 import {
   responsiveFontSize,
   responsiveHeight,
+  responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import axios from 'axios';
 const PaymentScreen = () => {
@@ -140,56 +142,62 @@ const PaymentScreen = () => {
         flex: 1,
         padding: 16,
         backgroundColor: `rgba(255,255,255,0.3)`,
-        justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <View>
-        <Image
+      <ScrollView style={{height: responsiveHeight(100)}}>
+        {/* <Image
           source={require('../assets/images/card.png')}
           resizeMode="contain"
-        />
-      </View>
-      <View style={{justifyContent: 'flex-start', alignSelf: 'flex-start'}}>
-        <Text
-          style={{
-            color: '#000',
-            fontSize: responsiveFontSize(2),
-            fontWeight: '600',
-          }}>
-          Enter your Card Details
-        </Text>
-      </View>
+          style={{width: responsiveWidth(100), height: responsiveHeight(30)}}
+        /> */}
 
-      <CardField
-        postalCodeEnabled={false}
-        placeholders={{
-          number: '4242 4242 4242 4242',
-        }}
-        cardStyle={{
-          backgroundColor: '#FFFFFF',
-          textColor: '#000000',
-        }}
-        style={{
-          width: '100%',
-          height: 50,
-          marginVertical: 30,
-          borderRadius: 2,
-        }}
-        onCardChange={cardDetails => {
-          fetchCardDetail(cardDetails);
-          console.log(cardDetails, 'cardDetails');
-        }}
-        onFocus={focusedField => {
-          console.log('focusField', focusedField);
-        }}
-      />
-      <View style={{marginVertical: responsiveHeight(2)}}>
-        <Text style={{color: 'red', fontSize: responsiveFontSize(1.8)}}>
-          {errorPayment}
-        </Text>
-      </View>
-      <ButtonComp onPress={ondone} disabled={!cardInfo} isLoading={isLoading} />
-      <SuccessModal visible={isModalVisible} closeModal={closeModal} />
+        <View style={{justifyContent: 'flex-start', alignSelf: 'flex-start'}}>
+          <Text
+            style={{
+              color: '#000',
+              fontSize: responsiveFontSize(2),
+              fontWeight: '600',
+            }}>
+            Enter your Card Details
+          </Text>
+        </View>
+
+        <CardField
+          postalCodeEnabled={false}
+          autofocus={true} // Enable the keyboard
+          placeholders={{
+            number: '4242 4242 4242 4242',
+          }}
+          cardStyle={{
+            backgroundColor: '#FFFFFF',
+            textColor: '#000000',
+          }}
+          style={{
+            width: responsiveWidth(90),
+            height: responsiveHeight(8),
+            marginTop: responsiveHeight(3),
+            borderRadius: 2,
+          }}
+          onCardChange={cardDetails => {
+            fetchCardDetail(cardDetails);
+            console.log(cardDetails, 'cardDetails');
+          }}
+          onFocus={focusedField => {
+            console.log('focusField', focusedField);
+          }}
+        />
+        <View style={{marginVertical: responsiveHeight(2)}}>
+          <Text style={{color: 'red', fontSize: responsiveFontSize(1.8)}}>
+            {errorPayment}
+          </Text>
+        </View>
+        <ButtonComp
+          onPress={ondone}
+          disabled={!cardInfo}
+          isLoading={isLoading}
+        />
+        <SuccessModal visible={isModalVisible} closeModal={closeModal} />
+      </ScrollView>
     </View>
   );
 };
