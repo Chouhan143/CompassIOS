@@ -9,6 +9,8 @@ import {
   Alert,
   SafeAreaView,
   StatusBar,
+  ScrollView,
+  Modal,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {
@@ -24,6 +26,9 @@ import Icon4 from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useLogin} from '../utils/context/LoginProvider';
 import axios from 'axios';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Feather from 'react-native-vector-icons/Feather';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const CustomSideMenu = () => {
   const {setIsLoggedIn} = useLogin();
@@ -33,6 +38,7 @@ const CustomSideMenu = () => {
   const [trxDate, setTrxdate] = useState('');
   const [ExpDate, setExpdate] = useState('');
   const [status, setStatus] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
   const Home = <Icon name="home" size={responsiveFontSize(2)} color="#000" />;
   const Compass = <Icon2 name="direction" size={20} color="#000" />;
@@ -77,6 +83,7 @@ const CustomSideMenu = () => {
       {cancelable: false}, // Prevent dismissing the dialog by tapping outside of it
     );
   };
+
   const DeletUserAcount = async () => {
     try {
       const token = await AsyncStorage.getItem('access_token');
@@ -102,6 +109,7 @@ const CustomSideMenu = () => {
             onPress: async () => {
               // Clear the token from AsyncStorage
               if (userDeleteRes.config.data == null) {
+                setIsLoggedIn(null);
                 navigation.navigate('Login');
               }
             },
@@ -116,67 +124,63 @@ const CustomSideMenu = () => {
     }
   };
 
-  const Item = ({icon, title, onPress, backgroundColor, color, screenName}) => {
-    const navigation = useNavigation();
-
-    // const handleLogout = () => {
-    //   // Show a confirmation dialog before logging out
-    //   Alert.alert(
-    //     'Logout Confirmation',
-    //     'Are you sure you want to logout?',
-    //     [
-    //       {
-    //         text: 'Cancel',
-    //         style: 'cancel',
-    //       },
-    //       {
-    //         text: 'Logout',
-    //         onPress: async () => {
-    //           // Clear user data and navigate to the logout screen
-    //           await AsyncStorage.clear(); // Clear all data stored in AsyncStorage
-    //           navigation.navigate('LogoutScreen'); // Navigate to your logout screen
-    //         },
-    //       },
-    //     ],
-    //     {cancelable: false}, // Prevent dismissing the dialog by tapping outside of it
-    //   );
-    // };
-
-    useEffect(() => {
-      async function fetchUserName() {
-        const storedUserName = await AsyncStorage.getItem('Name');
-        if (storedUserName) {
-          setUserName(storedUserName);
-        }
+  useEffect(() => {
+    async function fetchUserName() {
+      const storedUserName = await AsyncStorage.getItem('Name');
+      if (storedUserName) {
+        setUserName(storedUserName);
       }
-      fetchUserName();
-    }, []);
+    }
+    fetchUserName();
+  }, []);
 
-    const SubScriptionGet = async () => {
-      try {
-        const token = await AsyncStorage.getItem('access_token');
-        const headers = {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        };
-        const res = await axios.get(
-          'https://smartluopan.com/api/user-transactions',
-          {headers},
-        );
+  const SubScriptionGet = async () => {
+    try {
+      const token = await AsyncStorage.getItem('access_token');
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      };
+      const res = await axios.get(
+        'https://smartluopan.com/api/user-transactions',
+        {headers},
+      );
+      if (res.data.transactions.length === 0) {
+        setShowAmount('N/A');
+        setShowCurrency('N/A');
+        setTrxdate('N/A');
+        setExpdate('N/A');
+        setStatus('Subscription Not Found');
+        setModalVisible(true);
+      } else {
+        // Subscription information found, update the state
         const dataSun = res.data.transactions[0];
         setShowAmount(dataSun.amount);
         setShowCurrency(dataSun.amount_currency);
         setTrxdate(dataSun.transaction_date);
         setExpdate(dataSun.transaction_expiry);
         setStatus(dataSun.transaction_status);
-      } catch (error) {
-        console.log('error', error);
       }
-    };
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
-    useEffect(() => {
-      SubScriptionGet();
-    }, []);
+  useEffect(() => {
+    SubScriptionGet();
+  }, []);
+
+  const modalClose = () => {
+    setModalVisible(false);
+  };
+
+  const subscriptionModal = () => {
+    navigation.navigate('PaymentScreen');
+    setModalVisible(false);
+  };
+
+  const Item = ({icon, title, onPress, backgroundColor, color, screenName}) => {
+    const navigation = useNavigation();
 
     return (
       <TouchableOpacity
@@ -254,16 +258,7 @@ const CustomSideMenu = () => {
                   // position: 'absolute',
                 }}
               />
-              <Text
-                style={{
-                  fontSize: responsiveFontSize(2.5),
-                  fontWeight: '800',
-                  color: 'white',
-                  alignSelf: 'center',
-                  // paddingTop: responsiveHeight(15),
-                }}>
-                Hi,
-              </Text>
+
               <Text
                 style={{
                   fontSize: responsiveFontSize(2),
@@ -272,52 +267,34 @@ const CustomSideMenu = () => {
                   alignSelf: 'center',
                   //   paddingTop: responsiveHeight(15),
                 }}>
-                Mr. {userName}
+                {userName}
               </Text>
             </View>
           </ImageBackground>
         </View>
-        <View style={{flex: 0.09, backgroundColor: '#fff'}}>
+        {/*  <View style={{flex: 0.09, backgroundColor: '#fff'}}>
           <FlatList data={listArray} renderItem={renderItem} />
         </View>
+              */}
+
         <View style={{flex: 0.7, backgroundColor: '#fff'}}>
-          <View
-            style={{
-              justifyContent: 'flex-start',
-              flexDirection: 'row',
-              marginLeft: responsiveWidth(5),
-            }}>
-            <Icon4
-              name="subscriptions"
-              size={responsiveFontSize(2)}
-              color="#000"
-            />
-            <Text
-              style={{
-                paddingLeft: responsiveWidth(5),
-                color: '#000',
-                fontWeight: '700',
-                fontSize: responsiveFontSize(1.8),
-              }}>
-              Subscription
-            </Text>
-          </View>
           {/* subscription data */}
-          <View
+          <ScrollView
             style={{
               // justifyContent: 'center',
               // alignItems: 'center',
-              padding: responsiveWidth(4),
-              width: responsiveWidth(90),
+              padding: responsiveWidth(1),
+              width: responsiveWidth(95),
               height: responsiveHeight(44),
               borderRadius: responsiveWidth(3),
               backgroundColor: '#F5F5F5',
               alignSelf: 'center',
-              marginTop: responsiveHeight(2),
+              marginTop: responsiveHeight(1),
               elevation: 2,
               shadowColor: '#000',
             }}>
             {/* <View style={{flexDirection: 'row', justifyContent: 'space-between'}}> */}
+
             <View>
               <View style={styles.subscriptionView}>
                 <Text style={styles.subscription}>Amount : $ {showAmount}</Text>
@@ -339,57 +316,177 @@ const CustomSideMenu = () => {
               </View>
 
               <View
-                style={
+                style={[
                   status === 'Succeeded'
                     ? styles.succeedBackground
-                    : styles.failBackground
-                }>
-                <Text style={[styles.subscription, {color: '#fff'}]}>
+                    : styles.failBackground,
+                  {flexDirection: 'row', justifyContent: 'space-between'},
+                ]}>
+                <Text
+                  style={[
+                    styles.subscription,
+                    {
+                      color:
+                        status === 'Subscription Not Found'
+                          ? '#892A27'
+                          : '#2F613B',
+                    },
+                  ]}>
                   Status : {status}
                 </Text>
+                <Feather
+                  name={
+                    status === 'Subscription Not Found'
+                      ? 'alert-circle'
+                      : 'check-circle'
+                  }
+                  color={
+                    status === 'Subscription Not Found' ? '#892A27' : '#2F613B'
+                  }
+                  size={responsiveFontSize(3)}
+                />
               </View>
 
               {/* User Account Delete */}
 
               <TouchableOpacity
-                style={[styles.succeedBackground, {backgroundColor: 'red'}]}
+                style={[
+                  styles.succeedBackground,
+                  {
+                    backgroundColor: 'red',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: responsiveHeight(1),
+                  },
+                ]}
                 onPress={DeletUserAcount}>
                 <Text style={[styles.subscription, {color: '#fff'}]}>
                   Delete Account
                 </Text>
+
+                <MaterialCommunityIcons
+                  name={'delete-circle'}
+                  color="#fff"
+                  size={responsiveFontSize(3)}
+                />
+              </TouchableOpacity>
+
+              {/* User Account Delete */}
+
+              <TouchableOpacity
+                style={[
+                  styles.succeedBackground,
+                  {
+                    backgroundColor: 'gray',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: responsiveHeight(1),
+                  },
+                ]}
+                onPress={() => navigation.navigate('ResetPassword')}>
+                <Text style={[styles.subscription, {color: '#fff'}]}>
+                  Reset Password
+                </Text>
+                <MaterialCommunityIcons
+                  name={'lock-reset'}
+                  color="#fff"
+                  size={responsiveFontSize(3)}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{
+                  // flex: 0.08,
+                  width: responsiveWidth(92.5),
+                  height: responsiveHeight(6),
+                  borderRadius: responsiveWidth(1),
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  backgroundColor: '#0a2240',
+                  paddingLeft: responsiveWidth(5),
+                }}
+                onPress={handleLogout}>
+                {/* <FlatList data={BottomList} renderItem={renderItem} /> */}
+                <Icon4
+                  name="logout"
+                  size={responsiveFontSize(2)}
+                  color="#fff"
+                />
+                <Text
+                  style={{
+                    fontSize: responsiveFontSize(2),
+                    fontWeight: '700',
+                    color: '#fff',
+                    paddingLeft: responsiveWidth(3),
+                  }}>
+                  Logout
+                </Text>
               </TouchableOpacity>
             </View>
             {/* </View> */}
-          </View>
+          </ScrollView>
         </View>
-
-        <TouchableOpacity
-          style={{
-            // flex: 0.08,
-            width: responsiveWidth(80),
-            height: responsiveHeight(6),
-            borderRadius: responsiveWidth(1),
-            alignSelf: 'center',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'row',
-            backgroundColor: '#0a2240',
-            paddingLeft: responsiveWidth(5),
-          }}
-          onPress={handleLogout}>
-          {/* <FlatList data={BottomList} renderItem={renderItem} /> */}
-          <Icon4 name="logout" size={responsiveFontSize(2)} color="#fff" />
-          <Text
-            style={{
-              fontSize: responsiveFontSize(2),
-              fontWeight: '700',
-              color: '#fff',
-              paddingLeft: responsiveWidth(3),
-            }}>
-            Logout
-          </Text>
-        </TouchableOpacity>
       </View>
+
+      {/* modal here */}
+      {status === 'Subscription Not Found' ? (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <TouchableOpacity
+                style={{alignSelf: 'flex-end'}}
+                onPress={modalClose}>
+                <Entypo
+                  name={'circle-with-cross'}
+                  size={responsiveFontSize(4)}
+                  color={'rgba(0,0,0,0.3)'}
+                />
+              </TouchableOpacity>
+
+              <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={styles.modalText}>Subscription Not Found!</Text>
+                <Text
+                  style={{
+                    color: 'rgba(0,0,0,0.6)',
+                    fontSize: responsiveFontSize(2),
+                    paddingTop: responsiveHeight(0.3),
+                  }}>
+                  Please take Subscription first
+                </Text>
+                <TouchableOpacity
+                  style={{
+                    paddingHorizontal: responsiveWidth(10),
+                    paddingVertical: responsiveWidth(3),
+                    borderRadius: responsiveWidth(10),
+                    backgroundColor: '#4C49FA',
+                    marginTop: responsiveHeight(2),
+                  }}
+                  onPress={subscriptionModal}>
+                  <Text
+                    style={{
+                      color: '#fff',
+                      fontSize: responsiveFontSize(2),
+                      fontWeight: '600',
+                    }}>
+                    Subscribe Now
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      ) : null}
     </SafeAreaView>
   );
 };
@@ -409,15 +506,61 @@ const styles = StyleSheet.create({
     borderRadius: responsiveWidth(1),
   },
   succeedBackground: {
-    backgroundColor: 'green',
+    backgroundColor: '#E2FBE7',
     marginVertical: responsiveHeight(0.2),
     padding: responsiveHeight(1.5),
     borderRadius: responsiveWidth(1),
   },
   failBackground: {
-    backgroundColor: 'red',
+    backgroundColor: '#F7E3E1',
     marginVertical: responsiveHeight(1),
     padding: responsiveHeight(1.5),
     borderRadius: responsiveWidth(1),
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // marginTop: responsiveHeight(2),
+  },
+  modalView: {
+    width: responsiveWidth(95),
+    height: responsiveHeight(28),
+    borderColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: '#fff',
+    borderWidth: responsiveWidth(0.2),
+    borderRadius: responsiveHeight(2),
+    padding: responsiveWidth(3),
+    // alignItems: 'center',
+    shadowColor: '#fff',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    textAlign: 'center',
+    color: '#000',
+    fontSize: responsiveFontSize(2.4),
+    fontWeight: '600',
   },
 });

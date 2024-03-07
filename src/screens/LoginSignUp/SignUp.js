@@ -100,7 +100,7 @@ const SignUp = () => {
           }}
         />
 
-        <View style={{flex: 0.8, marginTop: responsiveHeight(12)}}>
+        <View style={{flex: 0.8, marginTop: responsiveHeight(8)}}>
           <TextInput
             placeholder="Name"
             placeholderTextColor="gray"
@@ -198,7 +198,7 @@ const SignUp = () => {
               shadowColor: '#A69EEC',
               backgroundColor: '#fff',
               elevation: 5,
-              marginTop: responsiveHeight(4),
+              marginTop: responsiveHeight(2),
               justifyContent: 'center',
               alignItems: 'center',
             }}

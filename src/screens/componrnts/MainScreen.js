@@ -24,11 +24,18 @@ import SubscriptionModal from './SubscriptionModal';
 import CustomSideMenu from './CustomSideMenu';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useLogin, useTransactionFlag} from '../utils/context/LoginProvider';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const MainScreen = ({navigation}) => {
   const [userName, setUserName] = useState('');
   const {setIsLoggedIn} = useLogin();
-  const {transactionFlag} = useTransactionFlag();
+  // const {transactionFlag} = useTransactionFlag();
+  const [checkUserPayment, setCheckUserPayment] = useState('');
+  const [initializing, setInitializing] = useState(true);
+  const [paymentStatusChanged, setPaymentStatusChanged] = useState(false);
+
+  const [signUpFlag, setSignUpFlag] = useState(false);
+
   useEffect(() => {
     const backAction = () => {
       BackHandler.exitApp(); // Exit the app
@@ -45,6 +52,65 @@ const MainScreen = ({navigation}) => {
 
   // console.log()
 
+  // useEffect(() => {
+  //   // Check if a token exists in AsyncStorage
+  //   const checkToken = async () => {
+  //     try {
+  //       const token = await AsyncStorage.getItem('access_token');
+  //       const paymentStatus = await AsyncStorage.getItem('paymentStatus');
+  //       setCheckUserPayment(JSON.parse(paymentStatus));
+
+  //       if (token) {
+  //         setIsLoggedIn(token);
+  //       }
+  //       setInitializing(false);
+  //     } catch (error) {
+  //       // Handle AsyncStorage read error
+  //       setInitializing(false);
+  //     }
+  //   };
+  //   checkToken();
+  // }, [setIsLoggedIn]);
+
+  useEffect(() => {
+    const checkToken = async () => {
+      try {
+        const token = await AsyncStorage.getItem('access_token');
+        const paymentStatus = await AsyncStorage.getItem('paymentStatus');
+        console.log('paymentStatus: ', paymentStatus);
+        setCheckUserPayment(JSON.parse(paymentStatus));
+
+        if (token) {
+          setIsLoggedIn(token);
+        }
+
+        if (paymentStatus === true) {
+          setSignUpFlag(true);
+        }
+
+        // Check if paymentStatus has changed
+        const storedPaymentStatus = JSON.parse(paymentStatus);
+        if (storedPaymentStatus !== checkUserPayment) {
+          setCheckUserPayment(storedPaymentStatus);
+          setPaymentStatusChanged(true);
+        }
+
+        setInitializing(false);
+      } catch (error) {
+        setInitializing(false);
+      }
+    };
+
+    checkToken();
+  }, [setIsLoggedIn, checkUserPayment, paymentStatusChanged]);
+
+  useEffect(() => {
+    // Reset paymentStatusChanged after re-render
+    if (paymentStatusChanged) {
+      setPaymentStatusChanged(false);
+    }
+  }, [paymentStatusChanged]);
+
   const options = [
     {
       compasId: 1,
@@ -54,18 +120,18 @@ const MainScreen = ({navigation}) => {
     },
     {
       name: 'Annual Ring 2024 ',
-      imageSource: require('../assets/images/2024AunnalRing.png'),
-      imageSource2: require('../assets/images/2024AunnalRing.png'),
+      imageSource: require('../assets/images/LastOne2024.png'),
+      imageSource2: require('../assets/images/LastOne2024.png'),
     },
     {
       name: 'Period 8 & Period 9 Flying Star LuoPan',
-      imageSource: require('../assets/images/FlyingStar.png'),
-      imageSource2: require('../assets/images/FlyingStar.png'),
+      imageSource: require('../assets/images/Period8&Period9F.png'),
+      imageSource2: require('../assets/images/Period8&Period9F.png'),
     },
     {
       name: 'Xuan Kong Da Gua Rings ',
-      imageSource: require('../assets/images/XuangKon.png'),
-      imageSource2: require('../assets/images/XuangKon.png'),
+      imageSource: require('../assets/images/XuangKonDaGuaF.png'),
+      imageSource2: require('../assets/images/XuangKonDaGuaF.png'),
     },
 
     {
@@ -76,9 +142,9 @@ const MainScreen = ({navigation}) => {
     },
 
     {
-      name: 'Annual Ring 2023',
-      imageSource: require('../assets/images/2023Annual.png'),
-      imageSource2: require('../assets/images/2023Annual.png'),
+      name: ' 2024 Annual & Monthly Flying Stars',
+      imageSource: require('../assets/MonthlyImages/1January2024.png'),
+      imageSource2: require('../assets/MonthlyImages/1January2024.png'),
     },
   ];
 
@@ -99,7 +165,7 @@ const MainScreen = ({navigation}) => {
             await AsyncStorage.removeItem('access_token');
             setIsLoggedIn(null);
             // navigation.navigate('HomeScreen'); // Navigate to your logout screen
-            navigation.navigate('HomeScreen'); // Navigate to your logout screen
+            navigation.navigate('Login'); // Navigate to your logout screen
           },
         },
       ],
@@ -112,10 +178,12 @@ const MainScreen = ({navigation}) => {
       const storedUserName = await AsyncStorage.getItem('Name');
       if (storedUserName) {
         setUserName(storedUserName);
+      } else {
+        setUserName('DemoUser');
       }
     }
     fetchUserName();
-  }, []);
+  }, [setUserName]);
 
   return (
     <SafeAreaView
@@ -149,7 +217,7 @@ const MainScreen = ({navigation}) => {
               justifyContent: 'flex-start',
               alignItems: 'center',
             }}>
-            <Text
+            {/* <Text
               style={{
                 fontSize: responsiveFontSize(2),
                 color: '#fff',
@@ -157,8 +225,8 @@ const MainScreen = ({navigation}) => {
                 paddingLeft: responsiveWidth(2.5),
               }}>
               Hii,
-            </Text>
-            <Text style={styles.name_txt}>{userName}</Text>
+            </Text> */}
+            <Text style={styles.name_txt}>{userName} </Text>
           </View>
         </View>
         <View style={styles.name_sec_icon}>
@@ -176,356 +244,547 @@ const MainScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
+      {/* top ui */}
 
-      <View
+      <ScrollView
+        showsVerticalScrollIndicator={false}
         style={{
           flex: 1,
           backgroundColor: '#f8f9f5',
           borderTopLeftRadius: responsiveWidth(12),
           borderTopRightRadius: responsiveWidth(12),
-          paddingTop: responsiveHeight(2.5),
+          // paddingTop: responsiveHeight(2.5),
         }}>
         <View
           style={{
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            marginHorizontal: responsiveWidth(4),
+            borderRadius: responsiveWidth(3),
+            shadowColor: responsiveHeight(5),
+            elevation: 5,
+            // paddingTop: responsiveHeight(2),
+            backgroundColor: '#eaf4fc',
+            marginTop: responsiveWidth(5),
+            margin: responsiveWidth(2),
           }}>
           <View
             style={{
+              flex: 1,
               flexDirection: 'row',
-              gap: 10,
             }}>
-            <View
+            <TouchableOpacity
               style={{
-                flex: 1,
-                width: responsiveWidth(35),
+                flex: 0.5,
                 justifyContent: 'center',
                 alignItems: 'center',
-                borderRadius: responsiveWidth(3),
-                shadowColor: responsiveHeight(5),
-                elevation: 5,
-                paddingTop: responsiveHeight(2),
-                backgroundColor: '#eaf4fc',
-              }}>
-              <TouchableOpacity
-                style={{flex: 0.7}}
-                onPress={() =>
-                  navigation.navigate('CompassOverlay', {option: options[0]})
-                }>
+              }}
+              onPress={() =>
+                navigation.navigate(
+                  checkUserPayment ? 'CompassOverlay' : 'ModalComponent',
+                  {option: options[0]},
+                )
+              }>
+              <View
+                style={{
+                  elevation: 5,
+                  shadowColor: 'black',
+                  width: responsiveWidth(42),
+                  height: responsiveWidth(42),
+                  backgroundColor: 'rgba(255, 255, 255,0.5)',
+                  borderRadius: responsiveWidth(21),
+                  justifyContt: 'center',
+                  alignItems: 'center',
+                }}>
                 <Image
                   source={options[0].imageSource2}
                   style={{
                     flex: 1,
-                    width: responsiveWidth(45),
-                    height: responsiveWidth(45),
+                    width: responsiveWidth(50),
+                    height: responsiveWidth(50),
                     resizeMode: 'contain',
                   }}
                 />
-              </TouchableOpacity>
-              <View style={{flex: 0.3}}>
-                <Text
-                  style={{
-                    fontSize: responsiveFontSize(1.7),
-                    fontWeight: '600',
-                    color: '#000',
-                    marginTop: responsiveHeight(1.5),
-                    paddingHorizontal: responsiveWidth(2),
-                  }}
-                  numberOfLines={2}>
-                  {options[0].name}
-                </Text>
               </View>
-            </View>
+            </TouchableOpacity>
 
-            <View
-              style={{
-                flex: 1,
-                width: responsiveWidth(35),
-                height: responsiveHeight(25),
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: responsiveWidth(3),
-                shadowColor: responsiveHeight(5),
-                elevation: 5,
-                backgroundColor: '#eaf4fc',
-              }}>
-              <TouchableOpacity
-                style={{flex: 0.7}}
-                onPress={() =>
-                  navigation.navigate('CompassOverlay', {option: options[1]})
-                }>
-                <Image
-                  source={options[1].imageSource}
-                  style={{
-                    width: responsiveWidth(43),
-                    height: responsiveWidth(43),
-                    resizeMode: 'contain',
-                    flex: 1,
-                  }}
-                />
-              </TouchableOpacity>
-              <View style={{flex: 0.3}}>
-                <Text
-                  style={{
-                    fontSize: responsiveFontSize(1.7),
-                    fontWeight: '600',
-                    color: '#000',
-                    marginTop: responsiveHeight(1.5),
-                    paddingHorizontal: responsiveWidth(2),
-                  }}
-                  numberOfLines={2}>
-                  {options[1].name}
-                </Text>
-              </View>
+            <View style={{flex: 0.5}}>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2.2),
+                  fontWeight: '800',
+                  color: '#000',
+                  marginTop: responsiveHeight(1.5),
+                  // paddingHorizontal: responsiveWidth(2),
+                  textAlign: 'center',
+                  letterSpacing: responsiveWidth(0.7),
+                }}
+                numberOfLines={2}>
+                {options[0].name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(1.7),
+                  fontWeight: '600',
+                  color: '#000',
+                  // marginTop: responsiveHeight(1.5),
+
+                  paddingHorizontal: responsiveWidth(2),
+                  paddingVertical: responsiveWidth(5),
+                }}>
+                This is a transparent version of the basic 24 Mountain ring to
+                find a generic direction and is by far going to be the most used
+                ring in your app. This ring has the added advantage of being
+                able to view under it, the GPS image of the location you are in.
+              </Text>
             </View>
           </View>
         </View>
-        {/* frist Ui View  */}
 
         <View
           style={{
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            marginHorizontal: responsiveWidth(4),
+            borderRadius: responsiveWidth(3),
+            shadowColor: responsiveHeight(5),
+            elevation: 5,
+            // paddingTop: responsiveHeight(2),
+            backgroundColor: '#eaf4fc',
+            marginTop: responsiveWidth(5),
+            margin: responsiveWidth(2),
           }}>
           <View
             style={{
+              flex: 1,
               flexDirection: 'row',
-              gap: 10,
             }}>
-            <View
+            <TouchableOpacity
               style={{
-                flex: 1,
-                width: responsiveWidth(35),
-                height: responsiveHeight(25),
+                flex: 0.5,
                 justifyContent: 'center',
                 alignItems: 'center',
-                borderRadius: responsiveWidth(3),
-                shadowColor: responsiveHeight(5),
-                elevation: 5,
-                backgroundColor: '#eaf4fc',
-              }}>
-              <TouchableOpacity
-                style={{flex: 0.7}}
-                onPress={() =>
-                  navigation.navigate('CompassOverlay', {option: options[2]})
-                }>
+              }}
+              onPress={() =>
+                navigation.navigate(
+                  checkUserPayment ? 'CompassOverlay' : 'ModalComponent',
+                  {option: options[1]},
+                )
+              }>
+              <View
+                style={{
+                  elevation: 5,
+                  shadowColor: 'black',
+                  width: responsiveWidth(42),
+                  height: responsiveWidth(42),
+                  backgroundColor: 'rgba(255, 255, 255,0.5)',
+                  borderRadius: responsiveWidth(21),
+                  justifyContt: 'center',
+                  alignItems: 'center',
+                }}>
                 <Image
-                  source={options[3].imageSource}
+                  source={options[1].imageSource2}
                   style={{
                     flex: 1,
-                    width: responsiveWidth(40),
-                    height: responsiveWidth(40),
+                    width: responsiveWidth(50),
+                    height: responsiveWidth(50),
                     resizeMode: 'contain',
-                    paddingTop: responsiveHeight(2),
                   }}
                 />
-              </TouchableOpacity>
-              <View style={{flex: 0.3}}>
-                <Text
-                  style={{
-                    fontSize: responsiveFontSize(1.7),
-                    fontWeight: '600',
-                    color: '#000',
-                    marginTop: responsiveHeight(1.5),
-                    paddingHorizontal: responsiveWidth(2),
-                  }}
-                  numberOfLines={3}>
-                  {options[3].name}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: responsiveFontSize(1.5),
-                    fontWeight: '400',
-                    color: '#000',
-                    marginTop: responsiveHeight(1),
-                    paddingHorizontal: responsiveWidth(2),
-                  }}
-                  numberOfLines={3}>
-                  {options[3].description}
-                </Text>
               </View>
-            </View>
+            </TouchableOpacity>
 
-            <View
-              style={{
-                flex: 1,
-                width: responsiveWidth(45),
-                height: responsiveHeight(25),
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: responsiveWidth(3),
-                shadowColor: responsiveHeight(5),
-                elevation: 5,
-                backgroundColor: '#eaf4fc',
-              }}>
-              <TouchableOpacity
-                style={{flex: 0.7}}
-                onPress={() =>
-                  navigation.navigate('CompassOverlay', {option: options[4]})
-                }>
-                <Image
-                  source={options[4].imageSource}
-                  style={{
-                    width: responsiveWidth(40),
-                    height: responsiveWidth(40),
-                    resizeMode: 'contain',
-                    flex: 1,
-                  }}
-                />
-              </TouchableOpacity>
-              <View style={{flex: 0.3}}>
-                <Text
-                  style={{
-                    fontSize: responsiveFontSize(1.7),
-                    fontWeight: '600',
-                    color: '#000',
-                    marginTop: responsiveHeight(1.5),
-                    paddingHorizontal: responsiveWidth(2),
-                  }}
-                  numberOfLines={2}>
-                  {options[4].name}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: responsiveFontSize(1.5),
-                    fontWeight: '400',
-                    color: '#fff',
-                    marginTop: responsiveHeight(1),
-                    paddingHorizontal: responsiveWidth(2),
-                  }}
-                  numberOfLines={3}>
-                  {options[4].description}
-                </Text>
-              </View>
+            <View style={{flex: 0.5}}>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2.2),
+                  fontWeight: '800',
+                  color: '#000',
+                  marginTop: responsiveHeight(1.5),
+                  // paddingHorizontal: responsiveWidth(2),
+                  textAlign: 'center',
+                  letterSpacing: responsiveWidth(0.7),
+                }}
+                numberOfLines={2}>
+                {options[1].name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(1.7),
+                  fontWeight: '600',
+                  color: '#000',
+                  // marginTop: responsiveHeight(1.5),
+                  paddingHorizontal: responsiveWidth(2),
+
+                  paddingVertical: responsiveWidth(5),
+                }}>
+                This transparent Annual 2024 template displays annual
+                components, including the annual star in each sector, the 4
+                Nobles, and Shas like Grand Duke, Year Breaker, 5 Yellows, Three
+                Killings. It also features Qi Men Dun Jia-related Doors, Stars,
+                and Deity locations for the year, offering comprehensive
+                insights.
+              </Text>
             </View>
           </View>
         </View>
-        {/* second View ui  */}
 
         <View
           style={{
             flex: 1,
             justifyContent: 'center',
-            alignItems: 'flex-start',
-            paddingHorizontal: responsiveWidth(4),
+            alignItems: 'center',
+            borderRadius: responsiveWidth(3),
+            shadowColor: responsiveHeight(5),
+            elevation: 5,
+            // paddingTop: responsiveHeight(2),
+            backgroundColor: '#eaf4fc',
+            marginTop: responsiveWidth(5),
+            margin: responsiveWidth(2),
           }}>
           <View
             style={{
+              flex: 1,
               flexDirection: 'row',
-              gap: 10,
             }}>
-            <View
+            <TouchableOpacity
               style={{
-                flex: 1,
-                width: responsiveWidth(45),
-                height: responsiveHeight(25),
+                flex: 0.5,
                 justifyContent: 'center',
                 alignItems: 'center',
-                borderRadius: responsiveWidth(3),
-                shadowColor: responsiveHeight(5),
-                elevation: 5,
-                backgroundColor: '#eaf4fc',
-              }}>
-              <TouchableOpacity
-                style={{flex: 0.7}}
-                onPress={() =>
-                  navigation.navigate('CompassOverlay', {option: options[2]})
-                }>
+              }}
+              onPress={() =>
+                navigation.navigate(
+                  checkUserPayment ? 'CompassOverlay' : 'ModalComponent',
+                  {option: options[3]},
+                )
+              }>
+              <View
+                style={{
+                  elevation: 5,
+                  shadowColor: 'black',
+                  width: responsiveWidth(42),
+                  height: responsiveWidth(42),
+                  backgroundColor: 'rgba(255, 255, 255,0.5)',
+                  borderRadius: responsiveWidth(21),
+                  justifyContt: 'center',
+                  alignItems: 'center',
+                }}>
                 <Image
-                  source={options[2].imageSource}
+                  source={options[3].imageSource2}
                   style={{
                     flex: 1,
-                    width: responsiveWidth(40),
-                    height: responsiveWidth(40),
+                    width: responsiveWidth(50),
+                    height: responsiveWidth(50),
                     resizeMode: 'contain',
                   }}
                 />
-              </TouchableOpacity>
-              <View style={{flex: 0.3}}>
-                <Text
-                  style={{
-                    fontSize: responsiveFontSize(1.7),
-                    fontWeight: '600',
-                    color: '#000',
-                    marginTop: responsiveHeight(1.5),
-                    paddingHorizontal: responsiveWidth(2),
-                  }}
-                  numberOfLines={3}>
-                  {options[2].name}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: responsiveFontSize(1.5),
-                    fontWeight: '400',
-                    color: '#000',
-                    marginTop: responsiveHeight(1),
-                    paddingHorizontal: responsiveWidth(2),
-                  }}
-                  numberOfLines={3}>
-                  {options[2].description}
-                </Text>
               </View>
-            </View>
+            </TouchableOpacity>
 
-            <View
-              style={{
-                flex: 1,
-                width: responsiveWidth(45),
-                height: responsiveHeight(25),
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: responsiveWidth(3),
-                shadowColor: responsiveHeight(5),
-                elevation: 5,
-                backgroundColor: '#eaf4fc',
-              }}>
-              <TouchableOpacity
-                style={{flex: 0.7}}
-                onPress={() =>
-                  navigation.navigate('CompassOverlay', {option: options[5]})
-                }>
-                <Image
-                  source={options[5].imageSource}
-                  style={{
-                    flex: 1,
-                    width: responsiveWidth(43),
-                    height: responsiveWidth(43),
-                    resizeMode: 'contain',
-                  }}
-                />
-              </TouchableOpacity>
-              <View style={{flex: 0.3}}>
-                <Text
-                  style={{
-                    fontSize: responsiveFontSize(1.7),
-                    fontWeight: '600',
-                    color: '#000',
-                    marginTop: responsiveHeight(1.5),
-                    paddingHorizontal: responsiveWidth(2),
-                  }}
-                  numberOfLines={2}>
-                  {options[5].name}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: responsiveFontSize(1.5),
-                    fontWeight: '400',
-                    color: '#000',
-                    marginTop: responsiveHeight(1),
-                    paddingHorizontal: responsiveWidth(2),
-                  }}
-                  numberOfLines={3}>
-                  {options[5].description}
-                </Text>
-              </View>
+            <View style={{flex: 0.5}}>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2.2),
+                  fontWeight: '800',
+                  color: '#000',
+                  marginTop: responsiveHeight(1.5),
+                  // paddingHorizontal: responsiveWidth(2),
+                  textAlign: 'center',
+                  letterSpacing: responsiveWidth(0.7),
+                }}
+                numberOfLines={2}>
+                {options[3].name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(1.7),
+                  fontWeight: '600',
+                  color: '#000',
+                  // marginTop: responsiveHeight(1.5),
+                  paddingHorizontal: responsiveWidth(2),
+                  paddingVertical: responsiveWidth(5),
+                }}>
+                Transparent SmartLuoPan®, tailored for Xuan Kong Da Gua
+                assessment, incorporates essential rings. This physical tool
+                enhances insights into Xuan Kong Feng Shui, providing a
+                comprehensive view for accurate assessments. The included rings
+                ensure relevance and practicality in navigating the complexities
+                of this ancient Chinese metaphysical practice.
+              </Text>
             </View>
           </View>
         </View>
-      </View>
+
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: responsiveWidth(3),
+            shadowColor: responsiveHeight(5),
+            elevation: 5,
+            // paddingTop: responsiveHeight(2),
+            backgroundColor: '#eaf4fc',
+            marginTop: responsiveWidth(5),
+            margin: responsiveWidth(2),
+          }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+            }}>
+            <TouchableOpacity
+              style={{
+                flex: 0.5,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() =>
+                navigation.navigate(
+                  checkUserPayment ? 'CompassOverlay' : 'ModalComponent',
+                  {option: options[4]},
+                )
+              }>
+              <View
+                style={{
+                  elevation: 5,
+                  shadowColor: 'black',
+                  width: responsiveWidth(42),
+                  height: responsiveWidth(42),
+                  backgroundColor: 'rgba(255, 255, 255,0.5)',
+                  borderRadius: responsiveWidth(21),
+                  justifyContt: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  source={options[4].imageSource2}
+                  style={{
+                    flex: 1,
+                    width: responsiveWidth(50),
+                    height: responsiveWidth(50),
+                    resizeMode: 'contain',
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
+
+            <View style={{flex: 0.5}}>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2.2),
+                  fontWeight: '800',
+                  color: '#000',
+                  marginTop: responsiveHeight(1.5),
+                  // paddingHorizontal: responsiveWidth(2),
+                  textAlign: 'center',
+                  letterSpacing: responsiveWidth(0.7),
+                }}
+                numberOfLines={2}>
+                {options[4].name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(1.7),
+                  fontWeight: '600',
+                  color: '#000',
+                  // marginTop: responsiveHeight(1.5),
+                  paddingHorizontal: responsiveWidth(2),
+                  paddingVertical: responsiveWidth(5),
+                }}>
+                This is a transparent version of our physical SmartLuoPan® which
+                has the added advantage of being able to view under it, the GPS
+                image of the location you are in. Do refer to the SMartLuoPan®
+                guide for more information on how to make the most of this item.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: responsiveWidth(3),
+            shadowColor: responsiveHeight(5),
+            elevation: 5,
+            // paddingTop: responsiveHeight(2),
+            backgroundColor: '#eaf4fc',
+            marginTop: responsiveWidth(5),
+            margin: responsiveWidth(2),
+          }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+            }}>
+            <TouchableOpacity
+              style={{
+                flex: 0.5,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() =>
+                navigation.navigate(
+                  checkUserPayment ? 'CompassOverlay' : 'ModalComponent',
+                  {option: options[2]},
+                )
+              }>
+              <View
+                style={{
+                  elevation: 5,
+                  shadowColor: 'black',
+                  width: responsiveWidth(42),
+                  height: responsiveWidth(42),
+                  backgroundColor: 'rgba(255, 255, 255,0.5)',
+                  borderRadius: responsiveWidth(21),
+                  justifyContt: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  source={options[2].imageSource2}
+                  style={{
+                    flex: 1,
+                    width: responsiveWidth(50),
+                    height: responsiveWidth(50),
+                    resizeMode: 'contain',
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
+
+            <View
+              style={{
+                flex: 0.5,
+              }}>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2.2),
+                  fontWeight: '800',
+                  color: '#000',
+                  marginTop: responsiveHeight(1.5),
+                  // paddingHorizontal: responsiveWidth(2),
+                  textAlign: 'center',
+                  letterSpacing: responsiveWidth(0.7),
+                }}
+                numberOfLines={2}>
+                {options[2].name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(1.7),
+                  fontWeight: '600',
+                  color: '#000',
+                  // marginTop: responsiveHeight(1.5),
+                  paddingHorizontal: responsiveWidth(2),
+                  paddingVertical: responsiveWidth(5),
+                }}>
+                This is a transparent version of the Period 8 and Period 9 rings
+                that have been extracted from our SMartLuoPan® in order to be
+                more visible. It has the added advantage of being able to view
+                under it, the GPS image of the location you are in. The 24
+                mountains are also in English and color coded as per their Na
+                Jia elements.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: responsiveWidth(3),
+            shadowColor: responsiveHeight(5),
+            elevation: 5,
+            // paddingTop: responsiveHeight(2),
+            backgroundColor: '#eaf4fc',
+            marginTop: responsiveWidth(5),
+            margin: responsiveWidth(2),
+          }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+            }}>
+            <TouchableOpacity
+              style={{
+                flex: 0.5,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() =>
+                navigation.navigate(
+                  checkUserPayment ? 'MonthlyFlyingStars' : 'ModalComponent',
+                  {option: options[5]},
+                )
+              }>
+              <View
+                style={{
+                  elevation: 5,
+                  shadowColor: 'black',
+                  width: responsiveWidth(42),
+                  height: responsiveWidth(42),
+                  backgroundColor: 'rgba(255, 255, 255,0.5)',
+                  borderRadius: responsiveWidth(21),
+                  justifyContt: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  source={options[5].imageSource2}
+                  style={{
+                    flex: 1,
+                    width: responsiveWidth(50),
+                    height: responsiveWidth(50),
+                    resizeMode: 'contain',
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
+
+            <View
+              style={{
+                flex: 0.5,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2.2),
+                  fontWeight: '800',
+                  color: '#000',
+                  marginTop: responsiveHeight(1.5),
+                  // paddingHorizontal: responsiveWidth(2),
+                  textAlign: 'center',
+                  letterSpacing: responsiveWidth(0.7),
+                }}
+                numberOfLines={2}>
+                {options[5].name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(1.7),
+                  fontWeight: '600',
+                  color: '#000',
+                  // marginTop: responsiveHeight(1.5),
+                  paddingHorizontal: responsiveWidth(2),
+                  paddingVertical: responsiveWidth(5),
+                }}>
+                By placing this ring on your property you are able to see
+                immediately shoch part of the property carries what combination
+                of energy. Included are the 24 mountains, annual flying stars,
+                the Grand Duke, Year Breaker and Three killings, and the
+                noblemen as well as the negative Gods. For the Qi Men Dun Jia
+                followers, we have the annual location of the Deities, Stars and
+                Doors. So much information all in one place makes your Feng Shui
+                assessemt super easy.
+              </Text>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

@@ -40,7 +40,7 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>location permision always</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need access to your location for providing location-based services in our app.</string>
+	<string>Turning on location services allows us to use the compass to show your location.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -73,7 +73,10 @@
 	<string></string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

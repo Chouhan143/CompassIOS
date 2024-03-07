@@ -67,7 +67,7 @@ const CompassOverlay = ({route}) => {
   };
 
   const getLocation = async () => {
-    Geolocation.getCurrentPosition(info => console.log(info));
+    Geolocation.getCurrentPosition(info => console.log('info', info));
 
     Geolocation.getCurrentPosition(
       position => {
@@ -132,7 +132,7 @@ const CompassOverlay = ({route}) => {
     <SafeAreaView>
       <StatusBar
         backgroundColor="#0a2240" // Set the status bar background color to match your SafeAreaView
-        barStyle="light-content" // Set the status bar text color
+        barStyle="dark" // Set the status bar text color
       />
       <View style={styles.container}>
         {showMap ? (
@@ -399,7 +399,9 @@ const CompassOverlay = ({route}) => {
           </>
         )}
 
-        {option.compasId === 1 || option.compasId2 === 3 ? (
+        {option.compasId === 1 ||
+        option.compasId2 === 3 ||
+        option.compasId3 === 4 ? (
           <TouchableOpacity
             onPress={() => {
               getLocation(); // Call getLocation when the button is pressed

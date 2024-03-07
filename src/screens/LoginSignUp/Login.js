@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import useNetInfo from '../componrnts/useNetInfo';
+
 import {
   responsiveWidth,
   responsiveHeight,
@@ -19,7 +20,9 @@ import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useLogin} from '../utils/context/LoginProvider';
+import {useTryDemo} from '../utils/context/LoginProvider';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
 const Login = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
@@ -29,9 +32,11 @@ const Login = () => {
   const netInfo = useNetInfo();
   //Login Api here
   const {setIsLoggedIn} = useLogin();
+  const {setDemoClicked} = useTryDemo();
   // const {transactionFlag, setTransactionFlag} = useTransactionFlag();
   const LoginApi = async () => {
     setLoading(true);
+
     try {
       const Url = 'https://smartluopan.com/api/login';
       const Payload = {
@@ -39,12 +44,17 @@ const Login = () => {
         password: password,
       };
       const response = await axios.post(Url, Payload);
+      console.log('get response', response.data);
       if (response.status === 200) {
+        const storeAmount = response.data.amount;
+        const amount = storeAmount.toString();
+        console.log('store amount', amount);
         const accessToken = response.data.access_token;
         const username = response.data.Name;
         const lastTransaction = response.data.last_transaction_status;
         await AsyncStorage.setItem('access_token', accessToken);
         await AsyncStorage.setItem('Name', username);
+        await AsyncStorage.setItem('amount', amount);
         setIsLoggedIn(accessToken);
 
         if (lastTransaction === 'No Transaction Found') {
@@ -63,6 +73,7 @@ const Login = () => {
         }
       }
     } catch (error) {
+      console.log('catch block', error);
       // console.log('error', error.response.data.errors);
       if (error.response.data.message === 'All Fields required!') {
         if (
@@ -122,8 +133,38 @@ const Login = () => {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            position: 'absolute',
+            // position: 'absolute',
           }}>
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#FFD700',
+              alignSelf: 'flex-end',
+              paddingVertical: responsiveHeight(1),
+              paddingHorizontal: responsiveWidth(2),
+              borderRadius: responsiveWidth(2),
+              marginTop: responsiveHeight(2),
+              marginBottom: responsiveHeight(6),
+              flexDirection: 'row',
+            }}
+            onPress={() => {
+              setDemoClicked(true);
+              // navigation.navigate('DemoScreen1');
+            }}>
+            <Text
+              style={{
+                color: '#000',
+                fontSize: responsiveFontSize(2),
+                fontWeight: '600',
+              }}>
+              Try Demo
+            </Text>
+            <Entypo
+              name={'chevron-right'}
+              size={responsiveFontSize(2.2)}
+              color="#000"
+            />
+          </TouchableOpacity>
+
           <Image
             source={require('../assets/images/LeoPanWhiteLogo.png')}
             style={{
@@ -133,7 +174,7 @@ const Login = () => {
             }}
           />
 
-          <View style={{flex: 0.8, marginTop: responsiveHeight(12)}}>
+          <View style={{flex: 0.8, marginTop: responsiveHeight(5)}}>
             <TextInput
               placeholder="Email Address"
               placeholderTextColor="gray"
@@ -176,7 +217,7 @@ const Login = () => {
 
             <View
               style={{
-                marginTop: responsiveWidth(5),
+                marginTop: responsiveWidth(3),
                 // flexWrap: 'wrap',
                 // alignItems: 'center', // Center the content horizontally
               }}>
@@ -192,6 +233,19 @@ const Login = () => {
             </View>
 
             <TouchableOpacity
+              style={{justifyContent: 'flex-end', alignSelf: 'flex-end'}}
+              onPress={() => navigation.navigate('ForgotPassword')}>
+              <Text
+                style={{
+                  color: '#fff',
+                  fontSize: responsiveFontSize(2),
+                  fontWeight: '600',
+                }}>
+                Forgot Password ?
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
               style={{
                 borderColor: '#0a2240',
                 borderWidth: 2,
@@ -202,7 +256,7 @@ const Login = () => {
                 shadowColor: '#A69EEC',
                 backgroundColor: '#fff',
                 elevation: 5,
-                marginTop: responsiveHeight(4),
+                marginTop: responsiveHeight(2),
                 justifyContent: 'center',
                 alignItems: 'center',
               }}

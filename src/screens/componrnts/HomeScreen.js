@@ -15,6 +15,7 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -33,6 +34,10 @@ const HomeScreen = () => {
     return () => backHandler.remove(); // Clean up the event listener on unmount
   }, []);
 
+  const DemoScreen = () => {
+    navigation.navigate('DemoBottomTabNavigator');
+  };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <StatusBar
@@ -44,12 +49,48 @@ const HomeScreen = () => {
         {/* Background Image */}
 
         {/* Other Components */}
-        <View style={styles.content}>
+        {/* <View style={styles.content}>
           <Text style={styles.textHeading}>WELCOME BACK</Text>
           <Text style={styles.textSubHeading}>
-            Let Your dreams be your compass
+            Navigate Your Dreams with SmartLuoPan
           </Text>
-          {/* Add more components here */}
+          <Text style={styles.textSubHeading}>
+            Where Ambitions Find Direction
+          </Text>
+        </View> */}
+        {/* Add more components here */}
+        <View style={styles.content}>
+          <TouchableOpacity
+            style={{
+              marginTop: responsiveHeight(2),
+              borderWidth: responsiveWidth(0.5),
+              borderColor: '#FFD700',
+              borderRadius: responsiveWidth(0.3),
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              alignSelf: 'flex-end',
+              width: responsiveWidth(35),
+              height: responsiveHeight(6),
+              paddingHorizontal: responsiveWidth(2),
+              marginRight: responsiveWidth(5),
+              borderRadius: responsiveWidth(1),
+            }}
+            onPress={DemoScreen}>
+            <Text
+              style={{
+                color: '#000',
+                fontSize: responsiveFontSize(2.4),
+                fontWeight: '600',
+              }}>
+              Try Demo
+            </Text>
+            <AntDesign
+              name={'arrowright'}
+              color={'#000'}
+              size={responsiveFontSize(3)}
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.backgroundImage}>
           <Image
@@ -58,7 +99,7 @@ const HomeScreen = () => {
             style={{
               width: responsiveWidth(100),
               height: responsiveHeight(100),
-              flex: 0.9,
+              flex: 1,
             }}
           />
         </View>
@@ -137,7 +178,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 0.2,
     alignItems: 'center',
-    paddingTop: responsiveHeight(5),
+    paddingTop: responsiveHeight(3),
     // justifyContent: 'center',
   },
   content2: {
@@ -147,13 +188,13 @@ const styles = StyleSheet.create({
     // marginBottom: responsiveHeight(1),
   },
   textHeading: {
-    fontSize: responsiveFontSize(3),
+    fontSize: responsiveFontSize(2.5),
     fontWeight: '800',
     color: '#000',
-    letterSpacing: responsiveWidth(1),
+    letterSpacing: responsiveWidth(0.8),
   },
   textSubHeading: {
-    fontSize: responsiveFontSize(2.5),
+    fontSize: responsiveFontSize(1.8),
     fontWeight: '500',
     color: '#000',
   },
